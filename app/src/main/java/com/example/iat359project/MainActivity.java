@@ -1,5 +1,6 @@
 package com.example.iat359project;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,15 +21,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button accelerometerButton = (Button) findViewById(R.id.accelerometerButton);
+        accelerometerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                startAccelerometerActivity();
             }
         });
     }
@@ -39,5 +38,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
+    public void startAccelerometerActivity(){
+        Intent i = new Intent(this.getApplicationContext(),AccelerometerActivity.class);
+        startActivity(i);
+    }
 }
