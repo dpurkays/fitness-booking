@@ -1,5 +1,6 @@
 package com.example.iat359project;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,22 +13,40 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+
+    Button accelerometerButton, signInButton, signUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        accelerometerButton = (Button) findViewById(R.id.accelerometerButton);
+        accelerometerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                startAccelerometerActivity();
+            }
+        });
+
+        signInButton = (Button) findViewById(R.id.signInButton);
+        signInButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                startSignInActivity();
+            }
+        });
+
+        signUpButton = (Button) findViewById(R.id.signUpButton);
+        signUpButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                startSignUpActivity();
             }
         });
     }
@@ -40,5 +59,18 @@ public class MainActivity extends AppCompatActivity {
     }
     
 
+    public void startAccelerometerActivity(){
+        Intent i = new Intent(this.getApplicationContext(),AccelerometerActivity.class);
+        startActivity(i);
+    }
 
+    public void startSignInActivity(){
+        Intent i = new Intent(this.getApplicationContext(),SignInActivity.class);
+        startActivity(i);
+    }
+
+    public void startSignUpActivity(){
+        Intent i = new Intent(this.getApplicationContext(),SignUpActivity.class);
+        startActivity(i);
+    }
 }
