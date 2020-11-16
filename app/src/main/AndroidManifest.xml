@@ -23,6 +23,12 @@
         <activity
             android:name=".AccelerometerActivity"
             />
+        <activity
+            android:name=".SignInActivity"
+            />
+        <activity
+            android:name=".SignUpActivity"
+            />
     </application>
 
 </manifest>

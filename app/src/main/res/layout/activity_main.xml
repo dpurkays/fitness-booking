@@ -6,9 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/accelerometerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ACCLRMT" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/signInButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign In" />
+
+        <Button
+            android:id="@+id/signUpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up" />
+
+        <Button
+            android:id="@+id/accelerometerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ACCLRMT" />
+    </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
