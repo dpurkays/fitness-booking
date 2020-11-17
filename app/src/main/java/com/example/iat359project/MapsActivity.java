@@ -77,6 +77,18 @@ public class MapsActivity extends FragmentActivity implements
         }
 //        getLastLocation();
 
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    getLastLocation();
+                }
+            }
+        };
+
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
@@ -84,9 +96,9 @@ public class MapsActivity extends FragmentActivity implements
                         Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED
                         && ActivityCompat.checkSelfPermission(
-                                MapsActivity.this,
-                                        Manifest.permission.ACCESS_COARSE_LOCATION)
-                                        != PackageManager.PERMISSION_GRANTED) {
+                        MapsActivity.this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
                 mMap.setMyLocationEnabled(true);
@@ -99,18 +111,6 @@ public class MapsActivity extends FragmentActivity implements
                         DEFAULT_ZOOM));
             }
         });
-
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                for (Location location : locationResult.getLocations()) {
-                    getLastLocation();
-                }
-            }
-        };
 
     }
 
