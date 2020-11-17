@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/running">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,7 +10,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewSession"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Up for a Session" />
@@ -27,7 +28,7 @@
                 android:text="Username" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textViewUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -70,8 +71,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Day" />
-                android:gravity="center"
                 android:text="Day"
                 android:layout_height="100dp"
                 android:textColor="#FFFFFF"
@@ -98,8 +97,6 @@
             <TextView
                 android:id="@+id/textViewTime"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Time"
@@ -116,17 +113,12 @@
                 android:scrollbarSize="4dp"
                 android:layout_height="100dp"
                 android:textColor="#000000"
-                android:background="#66FFFFFF"/>
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:background="#66FFFFFF" />
 
             <TextView
                 android:id="@+id/textViewHour"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="Hour" />
                 android:gravity="center"
                 android:text="Hour"
                 android:layout_height="100dp"
@@ -136,8 +128,6 @@
             <Spinner
                 android:id="@+id/hourSpinner"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
                 android:layout_weight="1"
                 android:layout_height="100dp"
                 android:textColor="#000000"
@@ -152,9 +142,6 @@
             android:orientation="horizontal">
 
             <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:id="@+id/textViewLocation"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -169,8 +156,6 @@
             <Spinner
                 android:id="@+id/locationSpinner"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
                 android:layout_weight="1"
                 android:layout_height="100dp"
                 android:textColor="#000000"

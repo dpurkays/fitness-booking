@@ -63,7 +63,7 @@ public class SignInActivity extends AppCompatActivity {
             if (cursor != null) {
                 if (passwordRetrieved.equals(password)) {
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "You're logged in", Toast.LENGTH_LONG).show();
                     //add username to sharedpreferences
