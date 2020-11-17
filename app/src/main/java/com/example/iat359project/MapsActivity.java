@@ -57,7 +57,6 @@ public class MapsActivity extends FragmentActivity implements
         mapFragment.getMapAsync(this);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-//        getLastLocation();
         startLocationUpdates();
     }
 
@@ -75,7 +74,6 @@ public class MapsActivity extends FragmentActivity implements
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
         }
-//        getLastLocation();
 
         locationCallback = new LocationCallback() {
             @Override
@@ -128,10 +126,6 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void getLastLocation() {
-        /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
-         */
         try {
             if (locationPermissionGranted) {
 
