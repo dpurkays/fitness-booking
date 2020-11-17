@@ -7,13 +7,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    public static final String DEFAULT = "20";
+
     Spinner daySpinner, daytimeSpinner, monthSpinner, hourSpinner,locationSpinner;
     Button bookButton, viewBookingButton;
+    TextView sessionTextview, usernameTextview, monthTextview, dayTextview, timeTextview, hourTextview, locationTextview;
     ArrayAdapter<CharSequence> dayAdapter,hourAdapter;
     MyDatabase db;
 
@@ -70,6 +75,31 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         locationSpinner.setAdapter(locationAdapter);
         locationSpinner.setOnItemSelectedListener(this);
 
+        sessionTextview = (TextView)findViewById(R.id.textViewSession);
+        usernameTextview = (TextView)findViewById(R.id.textViewUsername);
+        monthTextview = (TextView)findViewById(R.id.textViewMonth);
+        dayTextview = (TextView)findViewById(R.id.textViewDay);
+        timeTextview = (TextView)findViewById(R.id.textViewTime);
+        hourTextview = (TextView)findViewById(R.id.textViewHour);
+        locationTextview = (TextView)findViewById(R.id.textViewLocation);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPrefs = getSharedPreferences("textSize", Context.MODE_PRIVATE);
+        String getSize = sharedPrefs.getString("selectedTextSize", DEFAULT);
+        Float size = Float.parseFloat(getSize);
+        bookButton.setTextSize(size);
+        sessionTextview.setTextSize(size);
+        usernameTextview.setTextSize(size);
+        monthTextview.setTextSize(size);
+        dayTextview.setTextSize(size);
+        timeTextview.setTextSize(size);
+        hourTextview.setTextSize(size);
+        locationTextview.setTextSize(size);
     }
 
     @Override
@@ -157,4 +187,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         Intent intent = new Intent(this, ViewBookingActivity.class);
         startActivity(intent);
     }
+
+
 }

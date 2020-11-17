@@ -4,51 +4,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/setting"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:textSize="24sp"
+    android:padding="10dp"
+    android:background="@drawable/gym">
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@drawable/textview_border"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#B2EBF2"
+        >
+
+        <TextView
+            android:id="@+id/textViewCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Select Text Size"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
 
         <RadioGroup
             android:id="@+id/radioBgColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="30dp"
+            >
 
             <RadioButton
-                android:id="@+id/radioWhite"
-                android:layout_width="match_parent"
+                android:id="@+id/radioSmall"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="White" />
+                android:text="Small"
+                android:textSize="15sp"/>
 
             <RadioButton
-                android:id="@+id/radioBlack"
-                android:layout_width="match_parent"
+                android:id="@+id/radioNormal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Black" />
+                android:text="Normal"
+                android:textSize="20sp"/>
 
             <RadioButton
-                android:id="@+id/radioBlue"
-                android:layout_width="match_parent"
+                android:id="@+id/radioLarge"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Blue" />
+                android:text="Large"
+                android:textSize="25sp"/>
 
             <RadioButton
-                android:id="@+id/radioOrange"
-                android:layout_width="match_parent"
+                android:id="@+id/radioExtraLarge"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Orange" />
+                android:text="Extra Large"
+                android:textSize="30sp"/>
+
         </RadioGroup>
 
-        <Button
-            android:id="@+id/buttonSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="saveBgColor"
-            android:text="Save" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/white_blue_button"
+        android:onClick="saveTextSize"
+        android:padding="10dp"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.18"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.example.iat359project;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,7 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AccelerometerActivity extends AppCompatActivity {
 
-    private TextView stepCountDisplay, recordingDisplay,caloriesDisplay;
+    public static final String DEFAULT = "20";
+    private TextView stepCountDisplay, recordingDisplay,caloriesDisplay, caloriesTextview, countTextview;
     private Button toggleButton;
     private boolean isOn = false;
     private double magnitudeLatest = 0;
@@ -33,7 +36,10 @@ public class AccelerometerActivity extends AppCompatActivity {
         stepCountDisplay = (TextView) findViewById(R.id.stepCountDisplay);
         caloriesDisplay = (TextView) findViewById(R.id.caloriesDisplay);
         recordingDisplay = (TextView) findViewById(R.id.recordingDisplay);
+        caloriesTextview= (TextView) findViewById(R.id.textViewCalories);
+        countTextview= (TextView) findViewById(R.id.textViewCount);
         toggleButton = (Button) findViewById(R.id.accelerometerToggleButton);
+
 
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,13 +72,13 @@ public class AccelerometerActivity extends AppCompatActivity {
                     double magnitude = Math.sqrt(xAcceleration * xAcceleration + yAcceleration * yAcceleration + zAcceleration * zAcceleration);
                     double magnitudeDifference = magnitude - magnitudeLatest;
 
-                    Toast.makeText(getApplicationContext(), String.valueOf(magnitudeDifference), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), String.valueOf(magnitudeDifference), Toast.LENGTH_SHORT).show();
                     if (magnitudeDifference > 1) {
                         stepCount++;
-                        stepCountDisplay.setText(stepCount.toString());
+                        stepCountDisplay.setText(stepCount.toString() + " Steps");
                         caloriesBurnt = stepCount * 0.04;
                         if(stepCount > 1) {
-                            caloriesDisplay.setText(String.valueOf(caloriesBurnt));
+                            caloriesDisplay.setText(String.valueOf(caloriesBurnt) + " kCal");
                         }
                     }
 
@@ -87,6 +93,22 @@ public class AccelerometerActivity extends AppCompatActivity {
                 //nothing here
             }
         };
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPrefs = getSharedPreferences("textSize", Context.MODE_PRIVATE);
+        String getSize = sharedPrefs.getString("selectedTextSize", DEFAULT);
+        Float size = Float.parseFloat(getSize);
+        stepCountDisplay.setTextSize(size);
+        caloriesDisplay.setTextSize(size);
+        recordingDisplay.setTextSize(size);
+        caloriesTextview.setTextSize(size);
+        countTextview.setTextSize(size);
+        toggleButton.setTextSize(size);
+
     }
 
     public void toggleSensor(boolean value){

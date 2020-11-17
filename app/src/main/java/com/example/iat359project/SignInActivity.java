@@ -1,5 +1,6 @@
 package com.example.iat359project;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -15,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SignInActivity extends AppCompatActivity {
 
+    public static final String DEFAULT = "20";
     EditText inputUsername, inputPassword;
-    Button signInButton;
-    Button addButton;
+    Button signInButton, addButton;
     String username, password;
     MyDatabase db;
 
@@ -89,5 +90,18 @@ public class SignInActivity extends AppCompatActivity {
             Toast.makeText(this, "account added" + String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPrefs = getSharedPreferences("textSize", Context.MODE_PRIVATE);
+        String getSize = sharedPrefs.getString("selectedTextSize", DEFAULT);
+        Float size = Float.parseFloat(getSize);
+
+        addButton.setTextSize(size);
+        signInButton.setTextSize(size);
+        inputUsername.setTextSize(size);
+        inputPassword.setTextSize(size);
     }
 }

@@ -24,10 +24,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static final String DEFAULT = "20";
     Button accelerometerButton, signInButton, signUpButton, testMapButton;
-    public static final String DEFAULT = "#FFFFFF";
-    ConstraintLayout main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,24 +66,26 @@ public class MainActivity extends AppCompatActivity {
                 startMapActivity();
             }
         });
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences sharedPrefs = getSharedPreferences("BgColor", Context.MODE_PRIVATE);
-        String BgColor = sharedPrefs.getString("selectedBgColor", DEFAULT);
-        main = (ConstraintLayout) findViewById(R.id.Main);
-        main.setBackgroundColor(Color.parseColor(BgColor));
+        SharedPreferences sharedPrefs = getSharedPreferences("textSize", Context.MODE_PRIVATE);
+        String getSize = sharedPrefs.getString("selectedTextSize", DEFAULT);
+        Float size = Float.parseFloat(getSize);
+
+        accelerometerButton.setTextSize(size);
+        signInButton.setTextSize(size);
+        signUpButton.setTextSize(size);
+        testMapButton.setTextSize(size);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
+        //MenuInflater inflater = getMenuInflater();
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.action_settings:
-                Toast.makeText(this,"Setting Clicked", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this,"Setting Clicked", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(this.getApplicationContext(),SettingActivity.class);
                 startActivity(i);
                 return true;
