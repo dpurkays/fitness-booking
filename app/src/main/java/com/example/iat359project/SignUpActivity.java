@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String DEFAULT = "20";
+    public static final String DEFAULT2 = "Have Not Sign In";
 
     Spinner daySpinner, daytimeSpinner, monthSpinner, hourSpinner,locationSpinner;
     Button bookButton, viewBookingButton;
@@ -102,7 +103,13 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         timeTextview.setTextSize(size);
         hourTextview.setTextSize(size);
         locationTextview.setTextSize(size);
+
+        SharedPreferences sharedPrefs2 = getSharedPreferences("username", Context.MODE_PRIVATE);
+        String getName = sharedPrefs2.getString("getName", DEFAULT2);
+        usernameTextview.setText("Welcome " + getName);
     }
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

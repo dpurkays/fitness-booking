@@ -56,7 +56,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="10dp"
             android:background="@drawable/white_blue_button"
-            android:text="Button" />
+            android:text="Register(Testing)" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
