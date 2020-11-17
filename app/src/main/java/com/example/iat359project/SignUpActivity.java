@@ -1,5 +1,6 @@
 package com.example.iat359project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Spinner daySpinner, daytimeSpinner, monthSpinner, hourSpinner,locationSpinner;
-    Button bookButton;
+    Button bookButton, viewBookingButton;
     ArrayAdapter<CharSequence> dayAdapter,hourAdapter;
     MyDatabase db;
 
@@ -28,6 +29,14 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View v) {
                 bookSession();
+            }
+        });
+
+        viewBookingButton = (Button) findViewById(R.id.viewBookingButton);
+        viewBookingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewBooking();
             }
         });
 
@@ -78,16 +87,22 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                     case 7:
                     case 9:
                     case 11:
+                        daySpinner.setAdapter(null);
                         dayAdapter = ArrayAdapter.createFromResource(this, R.array.dayAArray, R.layout.support_simple_spinner_dropdown_item);
+                        daySpinner.setAdapter(dayAdapter);
                         break;
                     case 3:
                     case 5:
                     case 8:
                     case 10:
+                        daySpinner.setAdapter(null);
                         dayAdapter = ArrayAdapter.createFromResource(this, R.array.dayBArray, R.layout.support_simple_spinner_dropdown_item);
+                        daySpinner.setAdapter(dayAdapter);
                         break;
                     case 1:
+                        daySpinner.setAdapter(null);
                         dayAdapter = ArrayAdapter.createFromResource(this, R.array.dayCArray, R.layout.support_simple_spinner_dropdown_item);
+                        daySpinner.setAdapter(dayAdapter);
                         break;
 
                 }
@@ -95,13 +110,19 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 break;
             case R.id.daytimeSpinner:
                 if(position == 0) {
+                    hourSpinner.setAdapter(null);
                     ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(this, R.array.morningHoursArray, R.layout.support_simple_spinner_dropdown_item);
+                    hourSpinner.setAdapter(hourAdapter);
                 }
                 else if(position == 1) {
+                    hourSpinner.setAdapter(null);
                     ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(this, R.array.afternoonHoursArray, R.layout.support_simple_spinner_dropdown_item);
+                    hourSpinner.setAdapter(hourAdapter);
                 }
                 else {
+                    hourSpinner.setAdapter(null);
                     ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(this, R.array.eveningHoursArray, R.layout.support_simple_spinner_dropdown_item);
+                    hourSpinner.setAdapter(hourAdapter);
                 }
                 break;
 
@@ -130,5 +151,10 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         {
             Toast.makeText(this, "Your session on "+ day + " " + month +" is booked", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void viewBooking(){
+        Intent intent = new Intent(this, ViewBookingActivity.class);
+        startActivity(intent);
     }
 }

@@ -42,30 +42,30 @@ public class MyDatabase {
         return id;
     }
 
-    public Cursor getData()
+    public Cursor getSession()
     {
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String[] columns = {Constants.COLUMN_DAY, Constants.COLUMN_HOUR, Constants.COLUMN_LOCATION};
+        String[] columns = {Constants.COLUMN_DAY, Constants.COLUMN_HOUR, Constants.COLUMN_LOCATION, Constants.COLUMN_SESID, Constants.COLUMN_MONTH};
         Cursor cursor = db.query(Constants.TABLE_NAME_SIGNUP, columns, null, null, null, null, null);
         return cursor;
     }
 
 
 
-    public Cursor getSelectedData(String type)
-    {
-        //select plants from database of type 'herb'
-        SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = {Constants.COLUMN_DAY, Constants.COLUMN_HOUR, Constants.COLUMN_LOCATION};
-        ArrayList<Integer> cursorIndex = new ArrayList<>();
-
-        String selection = Constants.COLUMN_HOUR + "='" +type+ "'";  //Constants.TYPE = 'type'
-        Cursor cursor = db.query(Constants.TABLE_NAME_SIGNUP, columns, selection, null, null, null, null);
-
-
-        return cursor;
-    }
+//    public Cursor getSelectedData(String type)
+//    {
+//        //select plants from database of type 'herb'
+//        SQLiteDatabase db = helper.getWritableDatabase();
+//        String[] columns = {Constants.COLUMN_DAY, Constants.COLUMN_HOUR, Constants.COLUMN_LOCATION};
+//        ArrayList<Integer> cursorIndex = new ArrayList<>();
+//
+//        String selection = Constants.COLUMN_HOUR + "='" +type+ "'";  //Constants.TYPE = 'type'
+//        Cursor cursor = db.query(Constants.TABLE_NAME_SIGNUP, columns, selection, null, null, null, null);
+//
+//
+//        return cursor;
+//    }
 
     public Cursor getAccount(String username)
     {
@@ -81,10 +81,10 @@ public class MyDatabase {
         return cursor;
     }
 
-    public int deleteRow(){
+    public int deleteRow(String sesId){
         SQLiteDatabase db = helper.getWritableDatabase();
-        String[] whereArgs = {"herb"};
-        int count = db.delete(Constants.TABLE_NAME_SIGNUP, Constants.COLUMN_HOUR + "=?", whereArgs);
+        String[] whereArgs = {sesId};
+        int count = db.delete(Constants.TABLE_NAME_SIGNUP, Constants.COLUMN_SESID + "=?", whereArgs);
         return count;
     }
 

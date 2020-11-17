@@ -24,6 +24,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Username" />
 
             <TextView
@@ -31,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="Put username here pls" />
         </LinearLayout>
 
@@ -45,6 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="Month" />
 
             <Spinner
@@ -58,6 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="Day" />
 
             <Spinner
@@ -77,27 +81,29 @@
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="Time" />
 
             <Spinner
                 android:id="@+id/daytimeSpinner"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="Hour" />
 
             <Spinner
                 android:id="@+id/hourSpinner"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1" />
 
         </LinearLayout>
@@ -111,14 +117,15 @@
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="Location" />
 
             <Spinner
                 android:id="@+id/locationSpinner"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -128,6 +135,12 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="Book a Session" />
+
+        <Button
+            android:id="@+id/viewBookingButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View your bookings" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
