@@ -17,7 +17,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button accelerometerButton, signInButton, signUpButton;
+    Button accelerometerButton, signInButton, signUpButton, testMapButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
                 startSignUpActivity();
             }
         });
+
+        testMapButton = (Button) findViewById(R.id.test_map);
+        testMapButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                startMapActivity();
+            }
+        });
     }
 
     @Override
@@ -57,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+    
 
     public void startAccelerometerActivity(){
         Intent i = new Intent(this.getApplicationContext(),AccelerometerActivity.class);
@@ -70,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void startSignUpActivity(){
         Intent i = new Intent(this.getApplicationContext(),SignUpActivity.class);
+        startActivity(i);
+    }
+
+    public void startMapActivity(){
+        Intent i = new Intent(this.getApplicationContext(),MapsActivity.class);
         startActivity(i);
     }
 }
