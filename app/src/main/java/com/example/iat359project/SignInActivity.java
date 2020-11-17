@@ -18,7 +18,8 @@ public class SignInActivity extends AppCompatActivity {
 
     public static final String DEFAULT = "20";
     EditText inputUsername, inputPassword;
-    Button signInButton, addButton;
+    Button signInButton;
+    Button addButton;
     String username, password;
     MyDatabase db;
 
@@ -49,35 +50,35 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void logIn(){
-        username = inputUsername.getText().toString();
-        password = inputPassword.getText().toString();
+            username = inputUsername.getText().toString();
+            password = inputPassword.getText().toString();
 
-        if(!username.matches("")) {
+            if(!username.matches("")) {
 
-            Cursor cursor = db.getAccount(username);
-            cursor.moveToFirst();
+                Cursor cursor = db.getAccount(username);
+                cursor.moveToFirst();
 
-            int passwordIndex = cursor.getColumnIndex(Constants.COLUMN_PASSWORD);
-            String passwordRetrieved = cursor.getString(passwordIndex);
+                int passwordIndex = cursor.getColumnIndex(Constants.COLUMN_PASSWORD);
+                String passwordRetrieved = cursor.getString(passwordIndex);
 
-            if (cursor != null) {
-                if (passwordRetrieved.equals(password)) {
+                if (cursor != null) {
+                    if (passwordRetrieved.equals(password)) {
 
-                    Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(this, "You're logged in", Toast.LENGTH_LONG).show();
-                    //add username to sharedpreferences
+                        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(this, "You're logged in", Toast.LENGTH_LONG).show();
+                        //add username to sharedpreferences
+                    } else {
+                        Toast.makeText(this, "Your password is incorrect", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(this, "Your password is incorrect", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Your username is incorrect", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(this, "Your username is incorrect", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show();
             }
         }
-        else {
-            Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     public void addAccount(){
         long id = db.insertAccount("device","astra");
@@ -90,18 +91,5 @@ public class SignInActivity extends AppCompatActivity {
             Toast.makeText(this, "account added" + String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences sharedPrefs = getSharedPreferences("textSize", Context.MODE_PRIVATE);
-        String getSize = sharedPrefs.getString("selectedTextSize", DEFAULT);
-        Float size = Float.parseFloat(getSize);
-
-        addButton.setTextSize(size);
-        signInButton.setTextSize(size);
-        inputUsername.setTextSize(size);
-        inputPassword.setTextSize(size);
     }
 }
