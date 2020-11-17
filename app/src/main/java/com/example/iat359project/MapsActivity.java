@@ -42,8 +42,8 @@ public class MapsActivity extends FragmentActivity implements
     private Location lastKnownLocation;
     private LocationCallback locationCallback;
 
-    private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+    private long UPDATE_INTERVAL = 10 * 1000;  // 10 secs
+    private long FASTEST_INTERVAL = 2000; // 2 sec
 
     private LocationRequest locationRequest;
 
