@@ -30,7 +30,7 @@ public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener {
-
+    
     private static final String TAG = "TAG";
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -128,18 +128,6 @@ public class MapsActivity extends FragmentActivity implements
     private void getLastLocation() {
         try {
             if (locationPermissionGranted) {
-
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    if (mMap != null) {
-
-                    }
-                } else {
-                    // Permission to access the location is missing. Show rationale and request permission
-                    PermissionUtils.requestPermission(this,
-                            PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION, true);
-                }
 
                 fusedLocationProviderClient.getLastLocation()
                         .addOnSuccessListener(this, new OnSuccessListener<Location>() {
