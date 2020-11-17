@@ -6,7 +6,7 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SignUpActivity extends AppCompatActivity {
-    Spinner daySpinner, daytimeSpinner, monthSpinner, hourSpinner
+    Spinner daySpinner, daytimeSpinner, monthSpinner, hourSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
