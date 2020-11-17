@@ -53,11 +53,14 @@
         <activity
             android:name=".SignUpActivity"
             />
+
+        <activity android:name=".SettingActivity"
+            />
         <activity
             android:name=".ViewBookingActivity"
             />
 
-        
+
     </application>
 
 </manifest>
