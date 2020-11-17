@@ -57,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements
         mapFragment.getMapAsync(this);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        getLastLocation();
+//        getLastLocation();
         startLocationUpdates();
     }
 
@@ -75,10 +75,24 @@ public class MapsActivity extends FragmentActivity implements
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
         }
-        getLastLocation();
+//        getLastLocation();
+
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
+                if (ActivityCompat.checkSelfPermission(MapsActivity.this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(
+                                MapsActivity.this,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                                        != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                mMap.setMyLocationEnabled(true);
+                mMap.setOnMyLocationButtonClickListener(MapsActivity.this);
+                mMap.setOnMyLocationClickListener(MapsActivity.this);
+
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                         new LatLng(lastKnownLocation.getLatitude(),
                                 lastKnownLocation.getLongitude()),
