@@ -67,6 +67,8 @@ public class MapsActivity extends FragmentActivity implements
 
         // Add a marker in Sydney and move the camera
         getLocationPermission();
+        getDeviceLocation();
+
     }
 
     private void getLocationPermission() {
@@ -94,6 +96,8 @@ public class MapsActivity extends FragmentActivity implements
                         == PackageManager.PERMISSION_GRANTED) {
                     if (mMap != null) {
                         mMap.setMyLocationEnabled(true);
+                        mMap.setOnMyLocationButtonClickListener(this);
+                        mMap.setOnMyLocationClickListener(this);
 
                     }
                 } else {
@@ -141,10 +145,10 @@ public class MapsActivity extends FragmentActivity implements
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     locationPermissionGranted = true;
+                    getDeviceLocation();
                 }
             }
         }
-
     }
 
     private void updateUserLastKnownLocation() {
