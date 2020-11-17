@@ -32,6 +32,7 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -54,6 +55,7 @@
         <activity
             android:name=".ViewBookingActivity"
             />
+
     </application>
 
 </manifest>
