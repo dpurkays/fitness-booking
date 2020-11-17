@@ -51,28 +51,31 @@ public class SignInActivity extends AppCompatActivity {
         username = inputUsername.getText().toString();
         password = inputPassword.getText().toString();
 
-        Cursor cursor = db.getAccount(username);
-        cursor.moveToFirst();
+        if(!username.matches("")) {
 
-        int passwordIndex = cursor.getColumnIndex(Constants.COLUMN_PASSWORD);
-        String passwordRetrieved = cursor.getString(passwordIndex);
+            Cursor cursor = db.getAccount(username);
+            cursor.moveToFirst();
 
-        if(cursor != null) {
-            if (passwordRetrieved.equals(password)){
+            int passwordIndex = cursor.getColumnIndex(Constants.COLUMN_PASSWORD);
+            String passwordRetrieved = cursor.getString(passwordIndex);
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                Toast.makeText(this, "You're logged in", Toast.LENGTH_LONG).show();
-                //add username to sharedpreferences
-            }
-            else {
-                Toast.makeText(this, "Your password is incorrect", Toast.LENGTH_SHORT).show();
+            if (cursor != null) {
+                if (passwordRetrieved.equals(password)) {
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this, "You're logged in", Toast.LENGTH_LONG).show();
+                    //add username to sharedpreferences
+                } else {
+                    Toast.makeText(this, "Your password is incorrect", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Your username is incorrect", Toast.LENGTH_SHORT).show();
             }
         }
         else {
-            Toast.makeText(this, "Your username is incorrect", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void addAccount(){

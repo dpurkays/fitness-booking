@@ -67,7 +67,7 @@ public class AccelerometerActivity extends AppCompatActivity {
                     double magnitudeDifference = magnitude - magnitudeLatest;
 
                     Toast.makeText(getApplicationContext(), String.valueOf(magnitudeDifference), Toast.LENGTH_SHORT).show();
-                    if (magnitudeDifference > 6) {
+                    if (magnitudeDifference > 1) {
                         stepCount++;
                         stepCountDisplay.setText(stepCount.toString());
                         caloriesBurnt = stepCount * 0.04;
