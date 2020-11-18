@@ -49,6 +49,20 @@ public class SignInActivity extends AppCompatActivity {
         db = new MyDatabase(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPrefs = getSharedPreferences("textSize", Context.MODE_PRIVATE);
+        String getSize = sharedPrefs.getString("selectedTextSize", DEFAULT);
+        Float size = Float.parseFloat(getSize);
+
+        inputUsername.setTextSize(size);
+        inputPassword.setTextSize(size);
+        signInButton.setTextSize(size);
+        addButton.setTextSize(size);
+    }
+
     public void logIn(){
             username = inputUsername.getText().toString();
             password = inputPassword.getText().toString();
@@ -63,6 +77,12 @@ public class SignInActivity extends AppCompatActivity {
 
                 if (cursor != null) {
                     if (passwordRetrieved.equals(password)) {
+
+
+                        SharedPreferences sharedPrefs = getSharedPreferences("username", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
+                        editor.putString("getName", username);
+                        editor.commit();
 
                         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                         startActivity(intent);
@@ -80,16 +100,12 @@ public class SignInActivity extends AppCompatActivity {
             }
         }
 
-    public void addAccount(){
-        long id = db.insertAccount("device","astra");
-        if (id < 0)
-        {
+    public void addAccount() {
+        long id = db.insertAccount("iat359", "123456");
+        if (id < 0) {
             Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        } else {
             Toast.makeText(this, "account added" + String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
-
     }
 }

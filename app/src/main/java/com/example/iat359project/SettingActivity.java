@@ -60,6 +60,5 @@ public class SettingActivity extends AppCompatActivity implements RadioGroup.OnC
                 break;
             default:
         }
-
     }
 }
