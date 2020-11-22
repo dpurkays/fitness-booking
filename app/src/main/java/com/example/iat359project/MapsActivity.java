@@ -30,7 +30,7 @@ public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener {
-    
+
     private static final String TAG = "TAG";
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -126,6 +126,10 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void getLastLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
         try {
             if (locationPermissionGranted) {
 
