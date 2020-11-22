@@ -1,6 +1,7 @@
 package com.example.iat359project;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -11,6 +12,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -39,12 +42,15 @@ public class MapsActivity extends FragmentActivity implements
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
-    private Location lastKnownLocation;
+    private LatLng lastKnownLocation;
     private LocationCallback locationCallback;
 
     private long UPDATE_INTERVAL = 10 * 1000;  // 10 secs
     private long FASTEST_INTERVAL = 2000; // 2 sec
+    private int PROXIMITY_RADIUS = 1000;
 
+    private ToggleButton toggleButton;
+    private boolean activate = false;
     private LocationRequest locationRequest;
 
     @Override
@@ -58,6 +64,47 @@ public class MapsActivity extends FragmentActivity implements
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         startLocationUpdates();
+
+        toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
+        toggleButton.setTextOff("Show Nearby Gyms");
+        toggleButton.setTextOn("Disable Nearby Gyms");
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!activate) {
+                    showNearbyGyms(lastKnownLocation);
+                    activate = true;
+                } else {
+                    activate = false;
+                }
+            }
+        });
+
+
+    }
+
+    void showNearbyGyms(LatLng latLng) {
+        mMap.clear();
+        String url = getUrl(latLng);
+        Object dataTransfer[] = new Object[2];
+        dataTransfer[0] = mMap;
+        dataTransfer[1] = url;
+
+        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+        getNearbyPlacesData.execute(dataTransfer);
+        Log.d(TAG, "Showing nearby gyms");
+    }
+
+    private String getUrl(LatLng latLng) {
+        StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlaceUrl.append("location="+latLng.latitude+","+latLng.longitude);
+        googlePlaceUrl.append("&radius="+PROXIMITY_RADIUS);
+        googlePlaceUrl.append("&type="+"gym");
+        googlePlaceUrl.append("&sensor=true");
+        googlePlaceUrl.append("&key="+getString(R.string.google_maps_key));
+        Log.d("MapsActivity", "url = "+googlePlaceUrl.toString());
+
+        return googlePlaceUrl.toString();
     }
 
     @Override
@@ -87,31 +134,6 @@ public class MapsActivity extends FragmentActivity implements
             }
         };
 
-        /////delete below when you really know this is not needed////
-
-//        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-//            @Override
-//            public void onMapLoaded() {
-//                if (ActivityCompat.checkSelfPermission(MapsActivity.this,
-//                        Manifest.permission.ACCESS_FINE_LOCATION)
-//                        != PackageManager.PERMISSION_GRANTED
-//                        && ActivityCompat.checkSelfPermission(
-//                        MapsActivity.this,
-//                        Manifest.permission.ACCESS_COARSE_LOCATION)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//                    return;
-//                }
-//                mMap.setMyLocationEnabled(true);
-//                mMap.setOnMyLocationButtonClickListener(MapsActivity.this);
-//                mMap.setOnMyLocationClickListener(MapsActivity.this);
-//
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-//                        new LatLng(lastKnownLocation.getLatitude(),
-//                                lastKnownLocation.getLongitude()),
-//                        DEFAULT_ZOOM));
-//            }
-//        });
-
     }
 
     private void getLocationPermission() {
@@ -136,13 +158,18 @@ public class MapsActivity extends FragmentActivity implements
                             @Override
                             public void onSuccess(Location location) {
                                 if (location != null) {
-                                    lastKnownLocation = location;
-
+                                    lastKnownLocation = new LatLng(
+                                            location.getLatitude(),
+                                            location.getLongitude());
+                                    startLocationUpdates();
                                 } else {
                                     Log.d(TAG, "Current location is null. Using defaults.");
                                     mMap.moveCamera(CameraUpdateFactory
                                             .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
                                     mMap.getUiSettings().setMyLocationButtonEnabled(false);
+//                                    lastKnownLocation = new LatLng(defaultLocation.latitude,
+//                                            defaultLocation.longitude);
+//                                    showNearbyGyms();
                                 }
                             }
                         });
@@ -179,10 +206,10 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    private void setUserLocationUpdate(Location location) {
+    private void setUserLocationUpdate(LatLng latLng) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(location.getLatitude(),
-                location.getLongitude()),
+                new LatLng(latLng.latitude,
+                latLng.longitude),
                 DEFAULT_ZOOM));
     }
 
@@ -211,11 +238,15 @@ public class MapsActivity extends FragmentActivity implements
                     public void onLocationResult(LocationResult locationResult) {
                         onLocationChanged(locationResult.getLastLocation());
                         if(mMap != null) {
-                            setUserLocationUpdate(locationResult.getLastLocation());
+                            lastKnownLocation = new LatLng(locationResult.getLastLocation().getLatitude(),
+                                    locationResult.getLastLocation().getLongitude());
+                            setUserLocationUpdate(lastKnownLocation);
+
                         }
                     }
                 },
                 Looper.getMainLooper());
+
     }
 
     private void stopLocationUpdates() {
@@ -226,14 +257,18 @@ public class MapsActivity extends FragmentActivity implements
         Log.d(TAG, "Updated Location: " +
                 ""+ (location.getLatitude()) + "," +
                 "" + (location.getLongitude()));
-        lastKnownLocation = location;
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        lastKnownLocation = latLng;
+//        showNearbyGyms(lastKnownLocation);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (locationPermissionGranted) {
-            startLocationUpdates();
+//            startLocationUpdates();
+            getLastLocation();
         }
     }
 
