@@ -1,16 +1,10 @@
 package com.example.iat359project;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,7 +14,7 @@ import java.util.ArrayList;
 
 public class ViewBookingActivity extends AppCompatActivity  implements AdapterView.OnItemClickListener{
     RecyclerView myRecycler;
-    MyDatabase  db;
+    MyDatabase db;
     MyRecyclerAdapter myAdapter;
     MyHelper helper;
 
