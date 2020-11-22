@@ -87,28 +87,30 @@ public class MapsActivity extends FragmentActivity implements
             }
         };
 
-        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-            @Override
-            public void onMapLoaded() {
-                if (ActivityCompat.checkSelfPermission(MapsActivity.this,
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(
-                        MapsActivity.this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                mMap.setMyLocationEnabled(true);
-                mMap.setOnMyLocationButtonClickListener(MapsActivity.this);
-                mMap.setOnMyLocationClickListener(MapsActivity.this);
+        /////delete below when you really know this is not needed////
 
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(lastKnownLocation.getLatitude(),
-                                lastKnownLocation.getLongitude()),
-                        DEFAULT_ZOOM));
-            }
-        });
+//        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+//            @Override
+//            public void onMapLoaded() {
+//                if (ActivityCompat.checkSelfPermission(MapsActivity.this,
+//                        Manifest.permission.ACCESS_FINE_LOCATION)
+//                        != PackageManager.PERMISSION_GRANTED
+//                        && ActivityCompat.checkSelfPermission(
+//                        MapsActivity.this,
+//                        Manifest.permission.ACCESS_COARSE_LOCATION)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//                    return;
+//                }
+//                mMap.setMyLocationEnabled(true);
+//                mMap.setOnMyLocationButtonClickListener(MapsActivity.this);
+//                mMap.setOnMyLocationClickListener(MapsActivity.this);
+//
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+//                        new LatLng(lastKnownLocation.getLatitude(),
+//                                lastKnownLocation.getLongitude()),
+//                        DEFAULT_ZOOM));
+//            }
+//        });
 
     }
 
@@ -181,12 +183,11 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (locationPermissionGranted) {
-            startLocationUpdates();
-        }
+    private void setUserLocationUpdate(Location location) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(location.getLatitude(),
+                location.getLongitude()),
+                DEFAULT_ZOOM));
     }
 
     private void startLocationUpdates() {
@@ -213,9 +214,16 @@ public class MapsActivity extends FragmentActivity implements
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
                         onLocationChanged(locationResult.getLastLocation());
+                        if(mMap != null) {
+                            setUserLocationUpdate(locationResult.getLastLocation());
+                        }
                     }
                 },
                 Looper.getMainLooper());
+    }
+
+    private void stopLocationUpdates() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
     public void onLocationChanged(Location location) {
@@ -225,15 +233,18 @@ public class MapsActivity extends FragmentActivity implements
         lastKnownLocation = location;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (locationPermissionGranted) {
+            startLocationUpdates();
+        }
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
         stopLocationUpdates();
-    }
-
-    private void stopLocationUpdates() {
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
 
