@@ -1,7 +1,6 @@
 package com.example.iat359project;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -38,7 +37,7 @@ public class MapsActivity extends FragmentActivity implements
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-    private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
+    private final LatLng defaultLocation = new LatLng(49.191345, -122.8490117);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
@@ -47,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements
 
     private long UPDATE_INTERVAL = 10 * 1000;  // 10 secs
     private long FASTEST_INTERVAL = 2000; // 2 sec
-    private int PROXIMITY_RADIUS = 1000;
+    private int PROXIMITY_RADIUS = 1000; // 1km
 
     private ToggleButton toggleButton;
     private boolean activate = false;
@@ -72,9 +71,11 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public void onClick(View view) {
                 if(!activate) {
-                    showNearbyGyms(lastKnownLocation);
+                    //DONT USE THIS
+//                    showNearbyGyms(lastKnownLocation);
                     activate = true;
                 } else {
+                    mMap.clear();
                     activate = false;
                 }
             }
@@ -82,6 +83,10 @@ public class MapsActivity extends FragmentActivity implements
 
 
     }
+
+    //BE CAREFUL: takes a lot of requests, already at 300+
+    // TA IS LOOKING FOR ANOTHER OPTION //
+    //TODO: Should we automate this ????
 
     void showNearbyGyms(LatLng latLng) {
         mMap.clear();
@@ -100,7 +105,7 @@ public class MapsActivity extends FragmentActivity implements
         googlePlaceUrl.append("location="+latLng.latitude+","+latLng.longitude);
         googlePlaceUrl.append("&radius="+PROXIMITY_RADIUS);
         googlePlaceUrl.append("&type="+"gym");
-        googlePlaceUrl.append("&sensor=true");
+//        googlePlaceUrl.append("&sensor=true");
         googlePlaceUrl.append("&key="+getString(R.string.google_maps_key));
         Log.d("MapsActivity", "url = "+googlePlaceUrl.toString());
 
@@ -167,9 +172,6 @@ public class MapsActivity extends FragmentActivity implements
                                     mMap.moveCamera(CameraUpdateFactory
                                             .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
                                     mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//                                    lastKnownLocation = new LatLng(defaultLocation.latitude,
-//                                            defaultLocation.longitude);
-//                                    showNearbyGyms();
                                 }
                             }
                         });
@@ -206,15 +208,19 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    private void setUserLocationUpdate(LatLng latLng) {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+    private void showUserLocation(LatLng latLng) {
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(latLng.latitude,
                 latLng.longitude),
                 DEFAULT_ZOOM));
     }
 
     private void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
 
             return;
         }
@@ -238,9 +244,12 @@ public class MapsActivity extends FragmentActivity implements
                     public void onLocationResult(LocationResult locationResult) {
                         onLocationChanged(locationResult.getLastLocation());
                         if(mMap != null) {
+
+//                            if(lastKnownLocation != null && )
+
                             lastKnownLocation = new LatLng(locationResult.getLastLocation().getLatitude(),
                                     locationResult.getLastLocation().getLongitude());
-                            setUserLocationUpdate(lastKnownLocation);
+                            showUserLocation(lastKnownLocation);
 
                         }
                     }
