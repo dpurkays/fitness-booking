@@ -85,8 +85,8 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     //BE CAREFUL: takes a lot of requests, already at 300+
-    // TA IS LOOKING FOR ANOTHER OPTION //
-    //TODO: Should we automate this ????
+    //TODO: TA IS LOOKING FOR ANOTHER OPTION //
+
 
     void showNearbyGyms(LatLng latLng) {
         mMap.clear();
