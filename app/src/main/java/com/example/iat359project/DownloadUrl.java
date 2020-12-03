@@ -7,7 +7,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+/*
+This class supports Google Places API.
+Downloads the url from the web to get information of nearby searches.
 
+Due to the cost associate to Google Places API, this class is not used.
+ */
 public class DownloadUrl {
 
     public String readUrl(String myUrl) throws IOException{

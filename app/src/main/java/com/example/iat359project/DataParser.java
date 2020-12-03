@@ -9,6 +9,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+/*
+This class supports Google Places API.
+Parses data from given url into name, vicinity, latitude, longitude and reference.
+
+Due to the cost associate to Google Places API, this class is not used.
+ */
 
 public class DataParser {
 

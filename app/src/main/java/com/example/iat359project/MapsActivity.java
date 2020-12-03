@@ -71,7 +71,8 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public void onClick(View view) {
                 if(!activate) {
-                    //DONT USE THIS
+              //    DON'T USE THIS
+              //    Due to the cost associate to Google Places API, the following function is not used.
 //                    showNearbyGyms(lastKnownLocation);
                     activate = true;
                 } else {
@@ -84,10 +85,8 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    //BE CAREFUL: takes a lot of requests, already at 300+
-    //TODO: TA IS LOOKING FOR ANOTHER OPTION //
-
-
+    // Due to the cost associate to Google Places API, the following method is not used.
+    // This method works!
     void showNearbyGyms(LatLng latLng) {
         mMap.clear();
         String url = getUrl(latLng);
@@ -100,17 +99,20 @@ public class MapsActivity extends FragmentActivity implements
         Log.d(TAG, "Showing nearby gyms");
     }
 
+    // This method works but uses Google Places API
     private String getUrl(LatLng latLng) {
         StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlaceUrl.append("location="+latLng.latitude+","+latLng.longitude);
         googlePlaceUrl.append("&radius="+PROXIMITY_RADIUS);
         googlePlaceUrl.append("&type="+"gym");
 //        googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("&key="+getString(R.string.google_maps_key));
+        googlePlaceUrl.append("&key="+ getString(R.string.google_maps_key));
         Log.d("MapsActivity", "url = "+googlePlaceUrl.toString());
 
         return googlePlaceUrl.toString();
     }
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

@@ -12,6 +12,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+/*
+This class supports Google Places API.
+Places all the nearby gyms by the user's current location on the map.
+
+Due to the cost associate to Google Places API, this class is not used.
+ */
+
 public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
     String googlePlaceData;
     GoogleMap mMap;
