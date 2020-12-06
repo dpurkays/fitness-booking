@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -100,8 +101,6 @@ public class MapsActivity extends FragmentActivity implements
     void showLougheedGyms() {
         //The marker pin icon is from https://www.flaticon.com/free-icon/fitness-gym_2038640
 
-        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapsActivity.this));
-
         String snippet = "Book Now!";
         //Fitness World
         MarkerOptions fitnessWorldMarker = new MarkerOptions();
@@ -163,6 +162,9 @@ public class MapsActivity extends FragmentActivity implements
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(cameronRecMarker);
 
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapsActivity.this));
+        mMap.setOnInfoWindowClickListener(MapsActivity.this);
+
     }
 
     // Due to the cost associate to Google Places API, the following method is not used.
@@ -211,6 +213,7 @@ public class MapsActivity extends FragmentActivity implements
             mMap.setMyLocationEnabled(true);
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
+
         }
 
 
@@ -375,11 +378,15 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public void onInfoWindowClick(Marker marker) {
+
         Intent i = new Intent(this, SignUpActivity.class);
         i.putExtra("TITLE", marker.getTitle());
         i.putExtra("LAT", marker.getPosition().latitude);
         i.putExtra("LNG", marker.getPosition().longitude);
+        Toast.makeText(this, "Info window clicked",
+                Toast.LENGTH_SHORT).show();
 
         startActivity(i);
+        Log.d("TAG", "clicked");
     }
 }
