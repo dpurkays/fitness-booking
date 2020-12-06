@@ -32,6 +32,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.ArrayList;
+import java.util.List;
 /*
 MapsActivity displays map from Google Maps API. Uses users' current location and updates the map
 accordingly.
@@ -61,6 +64,7 @@ public class MapsActivity extends FragmentActivity implements
     private Button showGymButton;
     private LocationRequest locationRequest;
     private boolean buttonClicked = false;
+    private List<Gym> gymList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,69 +102,36 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
+    void addLougheedGyms() {
+//        List<Gym> gymList = new ArrayList<>();
+        Gym fitnessWorld = new Gym("Fitness World", new LatLng(49.2502, -122.8958));
+        Gym goodLife = new Gym("Good Life", new LatLng(49.2528, -122.8934));
+        Gym steveNash = new Gym("Steve Nash Sports Club", new LatLng(49.2514, -122.8963));
+        Gym f45Training = new Gym("F45 Training Lougheed", new LatLng(49.2552, -122.8925));
+        Gym fitness2000 = new Gym("Fitness 2000 Athletic Club", new LatLng(49.2518, -122.9014));
+        Gym cameronRec = new Gym("Cameron Recreation Complex", new LatLng(49.2539, -122.8992));
+
+        gymList.add(fitnessWorld);
+        gymList.add(goodLife);
+        gymList.add(steveNash);
+        gymList.add(f45Training);
+        gymList.add(fitness2000);
+        gymList.add(cameronRec);
+
+    }
     void showLougheedGyms() {
         //The marker pin icon is from https://www.flaticon.com/free-icon/fitness-gym_2038640
 
         String snippet = "Book Now!";
-        //Fitness World
-        MarkerOptions fitnessWorldMarker = new MarkerOptions();
-        String fitnessWorldString = "Fitness World";
-        LatLng fitnessWorldLatLng = new LatLng(49.2502, -122.8958);
-        fitnessWorldMarker.position(fitnessWorldLatLng)
-                .title(fitnessWorldString)
-                .snippet(snippet)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
-        mMap.addMarker(fitnessWorldMarker);
-
-        //GoodLife
-        MarkerOptions GoodLifeMarker = new MarkerOptions();
-        String GoodLifeString = "GoodLife";
-        LatLng GoodLifeLatLng = new LatLng(49.2528, -122.8934);
-        GoodLifeMarker.position(GoodLifeLatLng)
-                .title(GoodLifeString)
-                .snippet(snippet)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
-        mMap.addMarker(GoodLifeMarker);
-
-        //Steve Nash Sports Club
-        MarkerOptions SteveNashMarker = new MarkerOptions();
-        String SteveNashString = "Steve Nash Sports Club";
-        LatLng SteveNashLatLng = new LatLng(49.2514, -122.8963);
-        SteveNashMarker.position(SteveNashLatLng)
-                .title(SteveNashString)
-                .snippet(snippet)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
-        mMap.addMarker(SteveNashMarker);
-
-        //f45 Training Lougheed
-        MarkerOptions f45TrainingMarker = new MarkerOptions();
-        String f45TrainingString = "F45 Training Lougheed";
-        LatLng f45TrainingLatLng = new LatLng(49.2552, -122.8925);
-        f45TrainingMarker.position(f45TrainingLatLng)
-                .title(f45TrainingString)
-                .snippet(snippet)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
-        mMap.addMarker(f45TrainingMarker);
-
-        //Fitness 2000 Athletic Club
-        MarkerOptions fitness2000Marker = new MarkerOptions();
-        String fitness2000String = "Fitness 2000 Athletic Club";
-        LatLng fitness2000LatLng = new LatLng(49.2518, -122.9014);
-        fitness2000Marker.position(fitness2000LatLng)
-                .title(fitness2000String)
-                .snippet(snippet)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
-        mMap.addMarker(fitness2000Marker);
-
-        //Cameron Recreation Complex
-        MarkerOptions cameronRecMarker = new MarkerOptions();
-        String cameronRecString = "Cameron Recreation Complex";
-        LatLng cameronRecLatLng = new LatLng(49.2539, -122.8992);
-        cameronRecMarker.position(cameronRecLatLng)
-                .title(cameronRecString)
-                .snippet(snippet)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
-        mMap.addMarker(cameronRecMarker);
+        addLougheedGyms();
+        for(int i = 0; i < gymList.size(); i++) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(gymList.get(i).getLatLng())
+                    .title(gymList.get(i).getName())
+                    .snippet(snippet)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
+            mMap.addMarker(markerOptions);
+        }
 
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapsActivity.this));
         mMap.setOnInfoWindowClickListener(MapsActivity.this);
@@ -383,7 +354,7 @@ public class MapsActivity extends FragmentActivity implements
         i.putExtra("TITLE", marker.getTitle());
         i.putExtra("LAT", marker.getPosition().latitude);
         i.putExtra("LNG", marker.getPosition().longitude);
-        Toast.makeText(this, "Info window clicked",
+        Toast.makeText(this, marker.getTitle() + " has been selected for booking.",
                 Toast.LENGTH_SHORT).show();
 
         startActivity(i);
