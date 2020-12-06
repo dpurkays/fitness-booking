@@ -27,8 +27,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     ArrayAdapter<CharSequence> dayAdapter,hourAdapter;
     MyDatabase db;
 
-    String gymName;
-    LatLng gymLatLng;
+    private String gymName;
+    private double gymLat;
+    private double gymLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,9 +104,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     //collect gym data from MapsActivity
     private void getGymData() {
         gymName = getIntent().getStringExtra("TITLE");
-        Double lat = getIntent().getDoubleExtra("LAT", 0);
-        Double lng = getIntent().getDoubleExtra("LNG", 0);
-        gymLatLng = new LatLng(lat,lng);
+        gymLat = getIntent().getDoubleExtra("LAT", 0);
+        gymLng = getIntent().getDoubleExtra("LNG", 0);
     }
 
     @Override
