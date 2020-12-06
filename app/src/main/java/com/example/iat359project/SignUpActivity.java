@@ -35,7 +35,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     protected void onCreate(Bundle savedInstanceState) {
 
         //TODO: display gymName on screen
-        //TODO: add gymName and gymLatLng to db so we can use it in ViewBookingActivity
+        //TODO: add gymName and gymLat and gymLng to db so we can use it in ViewBookingActivity
 
         //get gym's data from mapsActivity
         getGymData();
