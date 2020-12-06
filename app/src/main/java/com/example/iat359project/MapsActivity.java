@@ -97,7 +97,7 @@ public class MapsActivity extends FragmentActivity implements
                 //change to Lougheed Mall's location
                 LatLng lougheedMall = new LatLng(49.2531, -122.8949);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lougheedMall ,DEFAULT_ZOOM));
-                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
                 //show gym markers by Lougheed Mall
                 showLougheedGyms();
@@ -283,6 +283,7 @@ public class MapsActivity extends FragmentActivity implements
                 DEFAULT_ZOOM));
     }
 
+    //tracks device's location
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) !=
@@ -329,6 +330,7 @@ public class MapsActivity extends FragmentActivity implements
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
+    //updates lastKnownLocation
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Updated Location: " +
                 ""+ (location.getLatitude()) + "," +
@@ -360,7 +362,7 @@ public class MapsActivity extends FragmentActivity implements
         i.putExtra("LAT", marker.getPosition().latitude);
         i.putExtra("LNG", marker.getPosition().longitude);
         Toast.makeText(this, marker.getTitle() + " has been selected for booking.",
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_LONG).show();
 
         startActivity(i);
         Log.d(TAG, "clicked");
