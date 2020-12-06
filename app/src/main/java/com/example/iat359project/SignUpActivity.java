@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String DEFAULT = "20";
@@ -24,9 +26,15 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     TextView sessionTextview, usernameTextview, monthTextview, dayTextview, timeTextview, hourTextview, locationTextview;
     ArrayAdapter<CharSequence> dayAdapter,hourAdapter;
     MyDatabase db;
+    String gymName;
+    LatLng gymLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //get data from mapsActivity
+        getGymData();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
@@ -86,6 +94,13 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         hourTextview = (TextView)findViewById(R.id.textViewHour);
         locationTextview = (TextView)findViewById(R.id.textViewLocation);
 
+    }
+
+    private void getGymData() {
+        gymName = getIntent().getStringExtra("TITLE");
+        Double lat = getIntent().getDoubleExtra("LAT", 0);
+        Double lng = getIntent().getDoubleExtra("LNG", 0);
+        gymLatLng = new LatLng(lat,lng);
     }
 
     @Override

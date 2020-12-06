@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -28,6 +28,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 /*
@@ -38,7 +39,8 @@ accordingly.
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener {
+        GoogleMap.OnMyLocationClickListener,
+        GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = "TAG";
     private GoogleMap mMap;
@@ -55,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements
     private long FASTEST_INTERVAL = 2000; // 2 sec
     private int PROXIMITY_RADIUS = 1000; // 1km
 
-    private Button button;
+    private Button showGymButton;
     private LocationRequest locationRequest;
     private boolean buttonClicked = false;
 
@@ -71,9 +73,9 @@ public class MapsActivity extends FragmentActivity implements
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         startLocationUpdates();
 
-        button = (Button) findViewById(R.id.button);
+        showGymButton = (Button) findViewById(R.id.button);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        showGymButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                //TODO: change map view to another location and hardcode the gyms. put markers on gym
@@ -98,12 +100,16 @@ public class MapsActivity extends FragmentActivity implements
     void showLougheedGyms() {
         //The marker pin icon is from https://www.flaticon.com/free-icon/fitness-gym_2038640
 
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapsActivity.this));
+
+        String snippet = "Book Now!";
         //Fitness World
         MarkerOptions fitnessWorldMarker = new MarkerOptions();
         String fitnessWorldString = "Fitness World";
         LatLng fitnessWorldLatLng = new LatLng(49.2502, -122.8958);
         fitnessWorldMarker.position(fitnessWorldLatLng)
                 .title(fitnessWorldString)
+                .snippet(snippet)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(fitnessWorldMarker);
 
@@ -113,6 +119,7 @@ public class MapsActivity extends FragmentActivity implements
         LatLng GoodLifeLatLng = new LatLng(49.2528, -122.8934);
         GoodLifeMarker.position(GoodLifeLatLng)
                 .title(GoodLifeString)
+                .snippet(snippet)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(GoodLifeMarker);
 
@@ -122,6 +129,7 @@ public class MapsActivity extends FragmentActivity implements
         LatLng SteveNashLatLng = new LatLng(49.2514, -122.8963);
         SteveNashMarker.position(SteveNashLatLng)
                 .title(SteveNashString)
+                .snippet(snippet)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(SteveNashMarker);
 
@@ -131,6 +139,7 @@ public class MapsActivity extends FragmentActivity implements
         LatLng f45TrainingLatLng = new LatLng(49.2552, -122.8925);
         f45TrainingMarker.position(f45TrainingLatLng)
                 .title(f45TrainingString)
+                .snippet(snippet)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(f45TrainingMarker);
 
@@ -140,6 +149,7 @@ public class MapsActivity extends FragmentActivity implements
         LatLng fitness2000LatLng = new LatLng(49.2518, -122.9014);
         fitness2000Marker.position(fitness2000LatLng)
                 .title(fitness2000String)
+                .snippet(snippet)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(fitness2000Marker);
 
@@ -149,6 +159,7 @@ public class MapsActivity extends FragmentActivity implements
         LatLng cameronRecLatLng = new LatLng(49.2539, -122.8992);
         cameronRecMarker.position(cameronRecLatLng)
                 .title(cameronRecString)
+                .snippet(snippet)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(cameronRecMarker);
 
@@ -314,8 +325,6 @@ public class MapsActivity extends FragmentActivity implements
         SettingsClient settingsClient = LocationServices.getSettingsClient(this);
         settingsClient.checkLocationSettings(locationSettingsRequest);
 
-
-
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, new LocationCallback() {
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
@@ -324,7 +333,8 @@ public class MapsActivity extends FragmentActivity implements
                             lastKnownLocation = new LatLng(locationResult.getLastLocation().getLatitude(),
                                     locationResult.getLastLocation().getLongitude());
 
-                            //if button was not clicked, change map view to user's current location
+                            //if showGymbutton was not clicked, change map view to user's current location
+                            //otherwise do not show the user location on map view
                             if (!buttonClicked) {
                                 showUserLocation(lastKnownLocation);
                             }
@@ -363,4 +373,13 @@ public class MapsActivity extends FragmentActivity implements
     }
 
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Intent i = new Intent(this, SignUpActivity.class);
+        i.putExtra("TITLE", marker.getTitle());
+        i.putExtra("LAT", marker.getPosition().latitude);
+        i.putExtra("LNG", marker.getPosition().longitude);
+
+        startActivity(i);
+    }
 }
