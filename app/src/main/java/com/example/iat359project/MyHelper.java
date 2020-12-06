@@ -1,8 +1,5 @@
 package com.example.iat359project;
 
-/**
- * Created by helmine on 2017-02-08.
- */
 
 import android.content.Context;
 import android.database.SQLException;
@@ -10,9 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
-/**
- * Created by helmine on 2015-02-02.
- */
+
 public class MyHelper extends SQLiteOpenHelper {
 
     private Context context;
