@@ -96,6 +96,7 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     void showLougheedGyms() {
+        //The marker pin icon is from https://www.flaticon.com/free-icon/fitness-gym_2038640
 
         //Fitness World
         MarkerOptions fitnessWorldMarker = new MarkerOptions();
@@ -103,7 +104,7 @@ public class MapsActivity extends FragmentActivity implements
         LatLng fitnessWorldLatLng = new LatLng(49.2502, -122.8958);
         fitnessWorldMarker.position(fitnessWorldLatLng)
                 .title(fitnessWorldString)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.applogo));//defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(fitnessWorldMarker);
 
         //GoodLife
@@ -112,16 +113,16 @@ public class MapsActivity extends FragmentActivity implements
         LatLng GoodLifeLatLng = new LatLng(49.2528, -122.8934);
         GoodLifeMarker.position(GoodLifeLatLng)
                 .title(GoodLifeString)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(GoodLifeMarker);
 
         //Steve Nash Sports Club
         MarkerOptions SteveNashMarker = new MarkerOptions();
-        String SteveNashString = "GoodLife";
+        String SteveNashString = "Steve Nash Sports Club";
         LatLng SteveNashLatLng = new LatLng(49.2514, -122.8963);
         SteveNashMarker.position(SteveNashLatLng)
                 .title(SteveNashString)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(SteveNashMarker);
 
         //f45 Training Lougheed
@@ -130,7 +131,7 @@ public class MapsActivity extends FragmentActivity implements
         LatLng f45TrainingLatLng = new LatLng(49.2552, -122.8925);
         f45TrainingMarker.position(f45TrainingLatLng)
                 .title(f45TrainingString)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(f45TrainingMarker);
 
         //Fitness 2000 Athletic Club
@@ -139,7 +140,7 @@ public class MapsActivity extends FragmentActivity implements
         LatLng fitness2000LatLng = new LatLng(49.2518, -122.9014);
         fitness2000Marker.position(fitness2000LatLng)
                 .title(fitness2000String)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(fitness2000Marker);
 
         //Cameron Recreation Complex
@@ -148,7 +149,7 @@ public class MapsActivity extends FragmentActivity implements
         LatLng cameronRecLatLng = new LatLng(49.2539, -122.8992);
         cameronRecMarker.position(cameronRecLatLng)
                 .title(cameronRecString)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon));
         mMap.addMarker(cameronRecMarker);
 
     }
