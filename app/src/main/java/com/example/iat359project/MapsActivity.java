@@ -2,16 +2,19 @@ package com.example.iat359project;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -46,24 +49,29 @@ public class MapsActivity extends FragmentActivity implements
         GoogleMap.OnMyLocationClickListener,
         GoogleMap.OnInfoWindowClickListener {
 
-    private static final String TAG = "TAG";
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private LocationRequest locationRequest;
 
-    private final LatLng defaultLocation = new LatLng(49.2502, -122.8958);
+    // constants
+    private static final String TAG = "TAG";
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean locationPermissionGranted;
-    private LatLng lastKnownLocation;
-    private LocationCallback locationCallback;
+    private final LatLng defaultLocation = new LatLng(49.2502, -122.8958);
 
     private long UPDATE_INTERVAL = 10 * 1000;  // 10 secs
     private long FASTEST_INTERVAL = 2000; // 2 sec
     private int PROXIMITY_RADIUS = 1000; // 1km
 
-    private Button showGymButton;
-    private LocationRequest locationRequest;
+    private LatLng lastKnownLocation;
+
+    //booleans
+    private boolean locationPermissionGranted;
     private boolean buttonClicked = false;
+
+    private LocationCallback locationCallback;
+
+    private Button showGymButton;
     private List<Gym> gymList = new ArrayList<>();
 
     @Override
@@ -199,8 +207,6 @@ public class MapsActivity extends FragmentActivity implements
                 }
             }
         };
-
-
     }
 
     private void getLocationPermission() {
@@ -346,7 +352,6 @@ public class MapsActivity extends FragmentActivity implements
         stopLocationUpdates();
     }
 
-
     @Override
     public void onInfoWindowClick(Marker marker) {
 
@@ -358,6 +363,6 @@ public class MapsActivity extends FragmentActivity implements
                 Toast.LENGTH_SHORT).show();
 
         startActivity(i);
-        Log.d("TAG", "clicked");
+        Log.d(TAG, "clicked");
     }
 }
