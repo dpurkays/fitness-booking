@@ -28,7 +28,15 @@ public class MyHelper extends SQLiteOpenHelper {
                     Constants.COLUMN_USERNAME + " TEXT, " +
                     Constants.COLUMN_PASSWORD + " TEXT);" ;
 
-    private static final String DROP_TABLE = "DROP TABLE IF EXISTS " ;
+    private static final String CREATE_TABLE_RECORDS =
+            "CREATE TABLE "+
+                    "records" + " (" +
+                    "recordId" + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "calories" + " TEXT, " +
+                    "steps" + " TEXT, " +
+                    "date" + " TEXT);" ;
+
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS" ;
 
     public MyHelper(Context context){
         super (context, Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
@@ -41,6 +49,7 @@ public class MyHelper extends SQLiteOpenHelper {
         try {
             db.execSQL(CREATE_TABLE_SIGNUP);
             db.execSQL(CREATE_TABLE_SIGNIN);
+            db.execSQL(CREATE_TABLE_RECORDS);
             Toast.makeText(context, "onCreate() called", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
             Toast.makeText(context, "exception onCreate() db", Toast.LENGTH_LONG).show();

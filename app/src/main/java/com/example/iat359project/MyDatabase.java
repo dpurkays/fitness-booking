@@ -42,16 +42,54 @@ public class MyDatabase {
         return id;
     }
 
-    public Cursor getSession()
+//    public Cursor getSession()
+//    {
+//        SQLiteDatabase db = helper.getWritableDatabase();
+//
+//        String[] columns = {Constants.COLUMN_DAY, Constants.COLUMN_HOUR, Constants.COLUMN_LOCATION, Constants.COLUMN_SESID, Constants.COLUMN_MONTH};
+//        Cursor cursor = db.query(Constants.TABLE_NAME_SIGNUP, columns, null, null, null, null, null);
+//        return cursor;
+//    }
+
+    public ArrayList<String> getRecords()
     {
+        ArrayList<String> mArrayList = new ArrayList<String>();
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String[] columns = {Constants.COLUMN_DAY, Constants.COLUMN_HOUR, Constants.COLUMN_LOCATION, Constants.COLUMN_SESID, Constants.COLUMN_MONTH};
-        Cursor cursor = db.query(Constants.TABLE_NAME_SIGNUP, columns, null, null, null, null, null);
-        return cursor;
+        String[] columns = {"recordId","user","calories","steps","date"};
+        Cursor cursor = db.query("records", columns, null, null, null, null, null);
+        cursor.moveToFirst();
+
+        int index1 = cursor.getColumnIndex("user");
+        int index2 = cursor.getColumnIndex("calories");
+        int index3 = cursor.getColumnIndex("steps");
+        int index4 = cursor.getColumnIndex("date");
+
+        while (!cursor.isAfterLast()) {
+            String user = cursor.getString(index1);
+            String calories = cursor.getString(index2);
+            String steps = cursor.getString(index3);
+            String date = cursor.getString(index4);
+
+            String s = user +";" + calories +";" + steps + ";" + date;
+            mArrayList.add(s);
+            cursor.moveToNext();
+
+        }
+        return mArrayList;
     }
 
-
+    public long insertRecord (String user, String calories, String steps, String date)
+    {
+        db = helper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user", user);
+        contentValues.put("calories", calories);
+        contentValues.put("steps", steps);
+        contentValues.put("date", date);
+        long id = db.insert("records", null, contentValues);
+        return id;
+    }
 
 //    public Cursor getSelectedData(String type)
 //    {
@@ -67,25 +105,23 @@ public class MyDatabase {
 //        return cursor;
 //    }
 
-    public Cursor getAccount(String username)
-    {
-        //select plants from database of type 'herb'
+//    public Cursor getAccount(String username)
+//    {
+//        //select plants from database of type 'herb'
+//        SQLiteDatabase db = helper.getWritableDatabase();
+//        String[] columns = {Constants.COLUMN_USERNAME, Constants.COLUMN_PASSWORD};
+//        ArrayList<Integer> cursorIndex = new ArrayList<>();
+//
+//        String selection = Constants.COLUMN_USERNAME + "='" +username+ "'";  //Constants.TYPE = 'type'
+//        Cursor cursor = db.query(Constants.TABLE_NAME_SIGNIN, columns, selection, null, null, null, null);
+//
+//
+//        return cursor;
+//    }
+
+    public void deleteRecords(){
         SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = {Constants.COLUMN_USERNAME, Constants.COLUMN_PASSWORD};
-        ArrayList<Integer> cursorIndex = new ArrayList<>();
-
-        String selection = Constants.COLUMN_USERNAME + "='" +username+ "'";  //Constants.TYPE = 'type'
-        Cursor cursor = db.query(Constants.TABLE_NAME_SIGNIN, columns, selection, null, null, null, null);
-
-
-        return cursor;
-    }
-
-    public int deleteRow(String sesId){
-        SQLiteDatabase db = helper.getWritableDatabase();
-        String[] whereArgs = {sesId};
-        int count = db.delete(Constants.TABLE_NAME_SIGNUP, Constants.COLUMN_SESID + "=?", whereArgs);
-        return count;
+        db.execSQL("DELETE FROM " + "records");
     }
 
 

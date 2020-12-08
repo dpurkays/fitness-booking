@@ -17,6 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class AccelerometerActivity extends AppCompatActivity {
 
     public static final float defaultSize = 20;
@@ -25,6 +30,8 @@ public class AccelerometerActivity extends AppCompatActivity {
 
     private TextView stepCountDisplay, recordingDisplay,caloriesDisplay, caloriesTextview, countTextview;
     private Button toggleButton;
+    private TextView stepCountDisplay, recordingDisplay,caloriesDisplay, caloriesTextview, countTextview, bestDisplay;
+    private Button toggleButton, viewRecordsButton, clearRecordsButton;
     private boolean isOn = false;
     private double magnitudeLatest = 0;
     private double caloriesBurnt = 0;
@@ -33,6 +40,9 @@ public class AccelerometerActivity extends AppCompatActivity {
     private Sensor accSensor;
     private SensorEventListener accSensorListener;
     private float[] gravity = new float[3];
+    MyDatabase db;
+    MyHelper helper;
+    String username;
 
     private ConstraintLayout AccLayout;
 
@@ -41,6 +51,16 @@ public class AccelerometerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accelerometer);
 
+        db = new MyDatabase(this);
+        helper = new MyHelper(this);
+
+        SharedPreferences sharedPrefs = getSharedPreferences("username", Context.MODE_PRIVATE);
+        if (sharedPrefs != null){
+            username = sharedPrefs.getString("getName", "");
+        }
+        else username = " ";
+
+        bestDisplay = (TextView) findViewById((R.id.bestDisplay));
         stepCountDisplay = (TextView) findViewById(R.id.stepCountDisplay);
         caloriesDisplay = (TextView) findViewById(R.id.caloriesDisplay);
         recordingDisplay = (TextView) findViewById(R.id.recordingDisplay);
@@ -49,6 +69,8 @@ public class AccelerometerActivity extends AppCompatActivity {
         toggleButton = (Button) findViewById(R.id.accelerometerToggleButton);
 
         AccLayout = (ConstraintLayout) findViewById(R.id.AccLayout);
+        viewRecordsButton = (Button) findViewById(R.id.viewRecordButton);
+        clearRecordsButton = (Button) findViewById(R.id.clearRecordsButton);
 
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +78,25 @@ public class AccelerometerActivity extends AppCompatActivity {
                 toggleSensor(isOn);
             }
         });
+
+        viewRecordsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewRecords();
+            }
+        });
+
+        String lastSteps = "";
+        String lastCalories = "";
+
+        SharedPreferences sharedPrefsRecord = getSharedPreferences("bestRecord", Context.MODE_PRIVATE);
+        if (sharedPrefs != null){
+
+            lastCalories = sharedPrefsRecord.getString("calories","0");
+            lastSteps = sharedPrefsRecord.getString("steps","0");
+
+            bestDisplay.setText(lastSteps + " steps/ " + lastCalories + "kCal");
+        }
 
         mySensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -172,10 +213,47 @@ public class AccelerometerActivity extends AppCompatActivity {
             mySensorManager.registerListener(accSensorListener, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
             stepCount = 0;
             recordingDisplay.setText("Recording");
+            isOn = true;
+            toggleButton.setText("Stop");
         }
         else {
             mySensorManager.unregisterListener(accSensorListener);
             recordingDisplay.setText("Sensor Deactivated");
+            isOn = false;
+
+            toggleButton.setText("Start");
+            if (username != null) {
+                int lastSteps = 0;
+                Float lastCalories  = 0f;
+                SharedPreferences sharedPrefs = getSharedPreferences("bestRecord", Context.MODE_PRIVATE);
+                if (sharedPrefs != null){
+
+                    lastCalories = Float.valueOf(sharedPrefs.getString("calories","0"));
+                    lastSteps = Integer.valueOf(sharedPrefs.getString("steps","0"));
+                }
+
+                if(lastSteps < stepCount) {
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    editor.putString("calories", String.valueOf(caloriesBurnt));
+                    editor.putString("steps", String.valueOf(stepCount));
+                    editor.commit();
+
+                    bestDisplay.setText(lastSteps + " steps/ " + String.valueOf(lastCalories) + "kCal");
+                }
+
+                Date date = Calendar.getInstance().getTime();
+                SimpleDateFormat myFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+                String formattedDate = myFormat.format(date);
+                long id = db.insertRecord(username, String.valueOf(caloriesBurnt), String.valueOf(stepCount), formattedDate);
+                if (id >=0){
+                    Toast.makeText(this, "Record added", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            stepCount = 0;
+            caloriesBurnt = 0;
+            stepCountDisplay.setText(String.valueOf(stepCount));
+            caloriesDisplay.setText(String.valueOf(caloriesBurnt));
         }
     }
 
@@ -189,5 +267,14 @@ public class AccelerometerActivity extends AppCompatActivity {
         if(!isOn){
             mySensorManager.unregisterListener(accSensorListener);
         }
+    }
+
+    public void viewRecords(){
+        Intent intent = new Intent(this, ViewRecordsActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void clearRecords(){
+        db.deleteRecords();
     }
 }

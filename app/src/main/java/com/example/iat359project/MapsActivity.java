@@ -8,7 +8,9 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -74,10 +76,17 @@ public class MapsActivity extends FragmentActivity implements
     private Button showGymButton;
     private List<Gym> gymList = new ArrayList<>();
 
+    private String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        SharedPreferences sharedPrefs = getSharedPreferences("username", Context.MODE_PRIVATE);
+        if (sharedPrefs != null){
+            username = sharedPrefs.getString("getName", "");
+        }
+        else username = "";
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -357,14 +366,21 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public void onInfoWindowClick(Marker marker) {
 
-        Intent i = new Intent(this, SignUpActivity.class);
-        i.putExtra("TITLE", marker.getTitle());
-        i.putExtra("LAT", marker.getPosition().latitude);
-        i.putExtra("LNG", marker.getPosition().longitude);
-        Toast.makeText(this, marker.getTitle() + " has been selected for booking.",
-                Toast.LENGTH_LONG).show();
+        if (username == "" || username == null) {
+            Intent i = new Intent(this, SignInActivity.class);
+            Toast.makeText(this, "Please sign in before booking",
+                    Toast.LENGTH_LONG).show();
+            startActivity(i);
+        }
+        else {
+            Intent i = new Intent(this, SignUpActivity.class);
+            i.putExtra("TITLE", marker.getTitle());
+            i.putExtra("LAT", marker.getPosition().latitude);
+            i.putExtra("LNG", marker.getPosition().longitude);
+            Toast.makeText(this, marker.getTitle() + " has been selected for booking.",
+            Toast.LENGTH_LONG).show();
+            startActivity(i);
+        }
 
-        startActivity(i);
-        Log.d(TAG, "clicked");
     }
 }

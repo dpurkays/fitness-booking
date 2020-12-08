@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private Button accelerometerButton, signInButton, signUpButton, testMapButton;
     private ImageButton SettingButton;
     private ConstraintLayout Main;
+    String username;
+    boolean logged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +79,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        SettingButton = (ImageButton) findViewById(R.id.SettingButton);
-        SettingButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                startSettingActivity();
-            }
-        });
+        SharedPreferences sharedPrefs = getSharedPreferences("username", Context.MODE_PRIVATE);
+        if (sharedPrefs != null){
+            username = sharedPrefs.getString("getName", "");
+        }
+        if (username == "" || username == null){
+            signUpButton.setVisibility(View.INVISIBLE);
+        }
+        else {
+            signInButton.setText("Sign Out");
+            logged = true;
+        }
 
         Main = (ConstraintLayout) findViewById(R.id.Main);
     }
@@ -177,8 +182,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startSignInActivity(){
-        Intent i = new Intent(this.getApplicationContext(),SignInActivity.class);
-        startActivity(i);
+        if(!logged) {
+            Intent i = new Intent(this.getApplicationContext(), SignInActivity.class);
+            startActivity(i);
+        }
+        else {
+            SharedPreferences sharedPrefs = getSharedPreferences("username", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            editor.putString("getName", null);
+            editor.commit();
+            logged = false;
+            Intent i = new Intent(this.getApplicationContext(), MainActivity.class);
+            startActivity(i);
+        }
     }
 
     public void startSignUpActivity(){
