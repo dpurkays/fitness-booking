@@ -14,11 +14,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.maps.model.LatLng;
-
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    public static final String DEFAULT = "20";
+    public static final float defaultSize = 20;
+    public static final int defaultFont = 1;
+    public static final int defaultTheme = 1;
     public static final String DEFAULT2 = "Have Not Sign In";
 
     Spinner daySpinner, daytimeSpinner, monthSpinner, hourSpinner,locationSpinner;
@@ -26,6 +26,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     TextView sessionTextview, usernameTextview, monthTextview, dayTextview, timeTextview, hourTextview, locationTextview;
     ArrayAdapter<CharSequence> dayAdapter,hourAdapter;
     MyDatabase db;
+
+    private ConstraintLayout SignUpLayout;
 
     private String gymName;
     private double gymLat;
@@ -99,6 +101,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         hourTextview = (TextView)findViewById(R.id.textViewHour);
         locationTextview = (TextView)findViewById(R.id.textViewLocation);
 
+        SignUpLayout = (ConstraintLayout) findViewById(R.id.SignUpLayout);
     }
 
     //collect gym data from MapsActivity
@@ -112,17 +115,80 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     protected void onResume() {
         super.onResume();
 
+        //Load TEXT SIZE from SharedPreferences
         SharedPreferences sharedPrefs = getSharedPreferences("textSize", Context.MODE_PRIVATE);
-        String getSize = sharedPrefs.getString("selectedTextSize", DEFAULT);
-        Float size = Float.parseFloat(getSize);
-        bookButton.setTextSize(size);
-        sessionTextview.setTextSize(size);
-        usernameTextview.setTextSize(size);
-        monthTextview.setTextSize(size);
-        dayTextview.setTextSize(size);
-        timeTextview.setTextSize(size);
-        hourTextview.setTextSize(size);
-        locationTextview.setTextSize(size);
+        Float getSize = sharedPrefs.getFloat("selectedTextSize", defaultSize);
+        bookButton.setTextSize(getSize);
+        sessionTextview.setTextSize(getSize);
+        usernameTextview.setTextSize(getSize);
+        monthTextview.setTextSize(getSize);
+        dayTextview.setTextSize(getSize);
+        timeTextview.setTextSize(getSize);
+        hourTextview.setTextSize(getSize);
+        locationTextview.setTextSize(getSize);
+        viewBookingButton.setTextSize(getSize);
+
+        //Load TEXT FONT from SharedPreferences
+        SharedPreferences textFont = getSharedPreferences("textFont", Context.MODE_PRIVATE);
+        int getFont = textFont.getInt("selectedTextFont", defaultFont);
+        if(getFont == 1){
+            Typeface typeface = getResources().getFont(R.font.roboto_light);
+            bookButton.setTypeface(typeface);
+            sessionTextview.setTypeface(typeface);
+            usernameTextview.setTypeface(typeface);
+            monthTextview.setTypeface(typeface);
+            dayTextview.setTypeface(typeface);
+            timeTextview.setTypeface(typeface);
+            hourTextview.setTypeface(typeface);
+            locationTextview.setTypeface(typeface);
+            viewBookingButton.setTypeface(typeface);
+        } else if(getFont == 2){
+            Typeface typeface = getResources().getFont(R.font.jet_brains_monowght);
+            bookButton.setTypeface(typeface);
+            sessionTextview.setTypeface(typeface);
+            usernameTextview.setTypeface(typeface);
+            monthTextview.setTypeface(typeface);
+            dayTextview.setTypeface(typeface);
+            timeTextview.setTypeface(typeface);
+            hourTextview.setTypeface(typeface);
+            locationTextview.setTypeface(typeface);
+            viewBookingButton.setTypeface(typeface);
+        }else if(getFont == 3) {
+            Typeface typeface = getResources().getFont(R.font.nerko_one);
+            bookButton.setTypeface(typeface);
+            sessionTextview.setTypeface(typeface);
+            usernameTextview.setTypeface(typeface);
+            monthTextview.setTypeface(typeface);
+            dayTextview.setTypeface(typeface);
+            timeTextview.setTypeface(typeface);
+            hourTextview.setTypeface(typeface);
+            locationTextview.setTypeface(typeface);
+            viewBookingButton.setTypeface(typeface);
+        } else if(getFont == 4){
+            Typeface typeface = getResources().getFont(R.font.permanent_marker);
+            bookButton.setTypeface(typeface);
+            sessionTextview.setTypeface(typeface);
+            usernameTextview.setTypeface(typeface);
+            monthTextview.setTypeface(typeface);
+            dayTextview.setTypeface(typeface);
+            timeTextview.setTypeface(typeface);
+            hourTextview.setTypeface(typeface);
+            locationTextview.setTypeface(typeface);
+            viewBookingButton.setTypeface(typeface);
+        }
+
+        //Load THEME from SharedPreferences
+        SharedPreferences theme = getSharedPreferences("theme", Context.MODE_PRIVATE);
+        int getMode = theme.getInt("selectedTheme", defaultTheme);
+        if(getMode == 1){
+            bookButton.setBackgroundResource(R.drawable.button_color);
+            viewBookingButton.setBackgroundResource(R.drawable.button_color);
+            SignUpLayout.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.background_dark));
+        }else if(getMode == 2){
+            bookButton.setBackgroundResource(R.drawable.button_color_light);
+            viewBookingButton.setBackgroundResource(R.drawable.button_color_light);
+            SignUpLayout.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.background_light));
+        }
 
         SharedPreferences sharedPrefs2 = getSharedPreferences("username", Context.MODE_PRIVATE);
         String getName = sharedPrefs2.getString("getName", DEFAULT2);

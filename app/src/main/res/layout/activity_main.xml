@@ -6,10 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/gym">
+    android:background="@drawable/gym"
+    android:backgroundTint="@color/background_dark"
+    android:backgroundTintMode="src_over">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/LoginLayout"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -23,26 +25,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
-            android:background="@drawable/white_blue_button"
+            android:background="@drawable/button_color"
             android:text="@string/Sign_in" />
 
         <Button
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/white_blue_button"
+            android:background="@drawable/button_color"
             android:text="@string/Sign_up" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/FunctionLayout"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/LoginLayout"
         android:gravity="center">
 
         <Button
@@ -50,22 +53,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
-            android:background="@drawable/white_blue_button"
+            android:background="@drawable/button_color"
             android:text="@string/acceler" />
 
         <Button
             android:id="@+id/test_map"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_blue_button"
+            android:background="@drawable/button_color"
             android:text="Test Map" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="410dp"
+        android:layout_height="104dp"
+        android:layout_marginTop="68dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center"
         android:padding="10dp"
@@ -74,7 +77,20 @@
         android:textSize="65sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/SettingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#800b142b"
+        android:backgroundTintMode="src_over"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_action_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

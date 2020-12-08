@@ -1,89 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gym"
+    android:backgroundTint="@color/background_dark"
+    android:backgroundTintMode="src_over"
+    android:padding="10dp"
+    android:scrollbars="none">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/setting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textSize="24sp"
-    android:padding="10dp"
-    android:background="@drawable/gym">
-
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/ThemeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/textview_border"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="#B2EBF2"
-        >
+        android:layout_marginVertical="10dp">
 
         <TextView
-            android:id="@+id/textViewCount"
+            android:id="@+id/textViewTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
+            android:paddingTop="15dp"
+            android:text="Select Theme"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/themeRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/radioDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dark"
+                android:textSize="15sp"
+                android:paddingVertical="15dp"
+                android:paddingRight="50dp"
+                />
+
+            <RadioButton
+                android:id="@+id/radioLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Light"
+                android:textSize="15sp" />
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/TextSizeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textview_border"
+        android:orientation="vertical"
+        android:layout_marginVertical="10dp">
+
+
+        <TextView
+            android:id="@+id/textViewSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
             android:text="Select Text Size"
             android:textAlignment="center"
             android:textSize="15sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <RadioGroup
-            android:id="@+id/radioBgColor"
+            android:id="@+id/radioTextSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="30dp"
-            >
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="10dp">
 
             <RadioButton
                 android:id="@+id/radioSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Small"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
             <RadioButton
                 android:id="@+id/radioNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Normal"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
             <RadioButton
                 android:id="@+id/radioLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Large"
-                android:textSize="25sp"/>
+                android:textSize="25sp" />
 
             <RadioButton
                 android:id="@+id/radioExtraLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Extra Large"
-                android:textSize="30sp"/>
+                android:textSize="30sp" />
 
         </RadioGroup>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/TextFontLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textview_border"
+        android:orientation="vertical"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:id="@+id/textViewFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:text="Select Text Font"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radioTextFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="10dp">
+,
+            <RadioButton
+                android:id="@+id/radioFontOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:text="Roboto Light" />
+
+            <RadioButton
+                android:id="@+id/radioFontTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/jet_brains_monowght"
+                android:text="Jet Brains Monowght" />
+
+            <RadioButton
+                android:id="@+id/radioFontThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nerko_one"
+                android:text="Nerko One" />
+
+            <RadioButton
+                android:id="@+id/radioFontFour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/permanent_marker"
+                android:text="Permanent Marker" />
+        </RadioGroup>
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/white_blue_button"
-        android:onClick="saveTextSize"
+        android:layout_marginVertical="10dp"
+        android:background="@drawable/button_color"
+        android:onClick="savePreferences"
         android:padding="10dp"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.18"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="Save"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+
+</ScrollView>

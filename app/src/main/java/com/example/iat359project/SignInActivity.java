@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,14 +12,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 public class SignInActivity extends AppCompatActivity {
 
-    public static final String DEFAULT = "20";
-    EditText inputUsername, inputPassword;
-    Button signInButton;
-    Button addButton;
-    String username, password;
+    public static final float defaultSize = 20;
+    public static final int defaultFont = 1;
+    public static final int defaultTheme = 1;
+
+    private EditText inputUsername, inputPassword;
+    private Button signInButton, addButton;
+    private String username, password;
+    private ConstraintLayout SignInLayout;
+
     MyDatabase db;
 
     @Override
@@ -45,20 +52,63 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         db = new MyDatabase(this);
+
+        SignInLayout = (ConstraintLayout) findViewById(R.id.SignInLayout);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        //Load TEXT SIZE from SharedPreferences
         SharedPreferences sharedPrefs = getSharedPreferences("textSize", Context.MODE_PRIVATE);
-        String getSize = sharedPrefs.getString("selectedTextSize", DEFAULT);
-        Float size = Float.parseFloat(getSize);
+        float getSize = sharedPrefs.getFloat("selectedTextSize", defaultSize);
+        inputUsername.setTextSize(getSize);
+        inputPassword.setTextSize(getSize);
+        signInButton.setTextSize(getSize);
+        addButton.setTextSize(getSize);
 
-        inputUsername.setTextSize(size);
-        inputPassword.setTextSize(size);
-        signInButton.setTextSize(size);
-        addButton.setTextSize(size);
+        //Load TEXT FONT from SharedPreferences
+        SharedPreferences textFont = getSharedPreferences("textFont", Context.MODE_PRIVATE);
+        int getFont = textFont.getInt("selectedTextFont", defaultFont);
+        if(getFont == 1){
+            Typeface typeface = getResources().getFont(R.font.roboto_light);
+            inputUsername.setTypeface(typeface);
+            inputPassword.setTypeface(typeface);
+            signInButton.setTypeface(typeface);
+            addButton.setTypeface(typeface);
+        } else if(getFont == 2){
+            Typeface typeface = getResources().getFont(R.font.jet_brains_monowght);
+            inputUsername.setTypeface(typeface);
+            inputPassword.setTypeface(typeface);
+            signInButton.setTypeface(typeface);
+            addButton.setTypeface(typeface);
+        }else if(getFont == 3) {
+            Typeface typeface = getResources().getFont(R.font.nerko_one);
+            inputUsername.setTypeface(typeface);
+            inputPassword.setTypeface(typeface);
+            signInButton.setTypeface(typeface);
+            addButton.setTypeface(typeface);
+        } else if(getFont == 4){
+            Typeface typeface = getResources().getFont(R.font.permanent_marker);
+            inputUsername.setTypeface(typeface);
+            inputPassword.setTypeface(typeface);
+            signInButton.setTypeface(typeface);
+            addButton.setTypeface(typeface);
+        }
+
+        //Load THEME from SharedPreferences
+        SharedPreferences theme = getSharedPreferences("theme", Context.MODE_PRIVATE);
+        int getMode = theme.getInt("selectedTheme", defaultTheme);
+        if(getMode == 1){
+            signInButton.setBackgroundResource(R.drawable.button_color);
+            addButton.setBackgroundResource(R.drawable.button_color);
+            SignInLayout.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.background_dark));
+        }else if(getMode == 2){
+            signInButton.setBackgroundResource(R.drawable.button_color_light);
+            addButton.setBackgroundResource(R.drawable.button_color_light);
+            SignInLayout.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.background_light));
+        }
     }
 
     public void logIn(){
