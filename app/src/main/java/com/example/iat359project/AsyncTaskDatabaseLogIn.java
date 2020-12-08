@@ -22,7 +22,6 @@ public class AsyncTaskDatabaseLogIn extends AsyncTask<String,Void,String> implem
     RequestQueue requestQueue;
     String requestUrl;
 
-
     AsyncTaskDatabaseLogIn (Context context, AsyncResponse asyncResponse){
         this.context = context;
         requestQueue = Volley.newRequestQueue(context);

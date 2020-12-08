@@ -17,7 +17,6 @@ Due to the cost associate to Google Places API, this class is not used.
  */
 
 public class DataParser {
-
     private HashMap<String, String> getPlace(JSONObject googlePlaceJson) {
         HashMap<String, String> googlePlacesMap = new HashMap<>();
         String placeName = "-NA-";

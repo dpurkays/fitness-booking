@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     RequestQueue requestQueue;
     String requestUrl, username, hour, day, month, location;
 
-    private String gymName = "Fitness World";
+    private String gymName = "";
     private double gymLat;
     private double gymLng;
 
@@ -103,27 +103,33 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         hourSpinner.setOnItemSelectedListener(this);
 
         locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-        ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.locationArray, R.layout.support_simple_spinner_dropdown_item);
-        locationAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        locationSpinner.setAdapter(locationAdapter);
-
-        locationSpinner.setSelection(0);
+        ArrayAdapter<CharSequence> locationAdapter;
+        Log.d("gymName", gymName);
         switch(gymName){
             case "Fitness World":
-                locationSpinner.setSelection(0);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.fitnessworld, R.layout.support_simple_spinner_dropdown_item);
             case "Good Life":
-                locationSpinner.setSelection(1);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.goodlife, R.layout.support_simple_spinner_dropdown_item);
             case "Steve Nash Sports Club":
-                locationSpinner.setSelection(2);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.stevenash, R.layout.support_simple_spinner_dropdown_item);
             case "F45 Training Lougheed":
-                locationSpinner.setSelection(3);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.f45, R.layout.support_simple_spinner_dropdown_item);
             case "Fitness 2000 Athletic Club":
-                locationSpinner.setSelection(4);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.fitness200, R.layout.support_simple_spinner_dropdown_item);
             case "Cameron Recreation Complex":
-                locationSpinner.setSelection(5);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.cameron, R.layout.support_simple_spinner_dropdown_item);
+            default:
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.locationArray, R.layout.support_simple_spinner_dropdown_item);
         }
-
+//        ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.locationArray, R.layout.support_simple_spinner_dropdown_item);
+        locationAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(locationAdapter);
         locationSpinner.setOnItemSelectedListener(this);
+
+//
+
+
+
 
 
 
@@ -151,6 +157,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         gymLng = getIntent().getDoubleExtra("LNG", 0);
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -170,6 +178,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         SharedPreferences sharedPrefs2 = getSharedPreferences("username", Context.MODE_PRIVATE);
         String getName = sharedPrefs2.getString("getName", DEFAULT2);
         usernameTextview.setText("Welcome " + getName);
+
+
     }
 
 

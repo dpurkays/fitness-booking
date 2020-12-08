@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
                 startAccelerometerActivity();
             }
         });
-
         signInButton = (Button) findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener(){
 

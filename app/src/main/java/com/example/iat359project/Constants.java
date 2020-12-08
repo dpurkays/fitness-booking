@@ -4,7 +4,6 @@ package com.example.iat359project;
 
 public class Constants {
     public static final String DATABASE_NAME = "TeamProjectDatabase";
-
     public static final String TABLE_NAME_SIGNUP = "SIGNUPSESSION";
     public static final String COLUMN_SESID = "_sid";
     public static final String COLUMN_DAY = "date";

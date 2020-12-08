@@ -20,7 +20,6 @@ public class MyHelper extends SQLiteOpenHelper {
                     Constants.COLUMN_MONTH + " TEXT, " +
                     Constants.COLUMN_HOUR + " TEXT, " +
                     Constants.COLUMN_LOCATION + " TEXT);" ;
-
     private static final String CREATE_TABLE_SIGNIN =
             "CREATE TABLE "+
                     Constants.TABLE_NAME_SIGNIN + " (" +

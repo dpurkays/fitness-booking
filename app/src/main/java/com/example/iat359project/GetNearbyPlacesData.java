@@ -23,7 +23,6 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
     String googlePlaceData;
     GoogleMap mMap;
     String url;
-
     @Override
     protected String doInBackground(Object... objects) {
         mMap = (GoogleMap) objects[0];

@@ -36,7 +36,6 @@ public class AccelerometerActivity extends AppCompatActivity {
     MyDatabase db;
     MyHelper helper;
     String username;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

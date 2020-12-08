@@ -19,7 +19,6 @@ public class DownloadUrl {
         String data = "";
         InputStream inputStream = null;
         HttpURLConnection urlConnection = null;
-        
         try {
             URL url = new URL(myUrl);
             urlConnection = (HttpURLConnection) url.openConnection();

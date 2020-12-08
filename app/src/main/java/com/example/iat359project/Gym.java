@@ -14,7 +14,6 @@ public class Gym {
         this.name = name;
         this.latLng = latLng;
     }
-
     public String getName() {
         return name;
     }
