@@ -67,7 +67,12 @@
     </string-array>
 
     <string-array name="locationArray">
-        <item>Salish Ct, Burnaby</item><item>Central Ave, Surrey</item>
+        <item>Fitness World</item>
+        <item>Good Life</item>
+        <item>Steve Nash Sports Club</item>
+        <item>F45 Training Lougheed</item>
+        <item>Fitness 2000 Athletic Club</item>
+        <item>Cameron Recreation Complex</item>
     </string-array>
 
 </resources>

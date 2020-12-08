@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,12 +12,24 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.android.gms.maps.model.LatLng;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.maps.model.LatLng;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+import org.json.JSONException;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, StringRequestResponse{
+
+
 
     public static final String DEFAULT = "20";
     public static final String DEFAULT2 = "Have Not Sign In";
@@ -26,8 +39,10 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     TextView sessionTextview, usernameTextview, monthTextview, dayTextview, timeTextview, hourTextview, locationTextview;
     ArrayAdapter<CharSequence> dayAdapter,hourAdapter;
     MyDatabase db;
+    RequestQueue requestQueue;
+    String requestUrl, username, hour, day, month, location;
 
-    private String gymName;
+    private String gymName = "Fitness World";
     private double gymLat;
     private double gymLng;
 
@@ -37,11 +52,13 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         //TODO: display gymName on screen
         //TODO: add gymName and gymLat and gymLng to db so we can use it in ViewBookingActivity
 
-        //get gym's data from mapsActivity
-        getGymData();
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        //get gym's data from mapsActivity
+        getGymData();
 
         db = new MyDatabase(this);
 
@@ -89,7 +106,26 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.locationArray, R.layout.support_simple_spinner_dropdown_item);
         locationAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         locationSpinner.setAdapter(locationAdapter);
+
+        locationSpinner.setSelection(0);
+        switch(gymName){
+            case "Fitness World":
+                locationSpinner.setSelection(0);
+            case "Good Life":
+                locationSpinner.setSelection(1);
+            case "Steve Nash Sports Club":
+                locationSpinner.setSelection(2);
+            case "F45 Training Lougheed":
+                locationSpinner.setSelection(3);
+            case "Fitness 2000 Athletic Club":
+                locationSpinner.setSelection(4);
+            case "Cameron Recreation Complex":
+                locationSpinner.setSelection(5);
+        }
+
         locationSpinner.setOnItemSelectedListener(this);
+
+
 
         sessionTextview = (TextView)findViewById(R.id.textViewSession);
         usernameTextview = (TextView)findViewById(R.id.textViewUsername);
@@ -99,6 +135,13 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         hourTextview = (TextView)findViewById(R.id.textViewHour);
         locationTextview = (TextView)findViewById(R.id.textViewLocation);
 
+        requestQueue = Volley.newRequestQueue(this);
+        requestUrl ="https://project-359-team.000webhostapp.com/signUpSession.php";
+
+        SharedPreferences sharedPrefs = getSharedPreferences("username", Context.MODE_PRIVATE);
+        if (sharedPrefs != null){
+            username = sharedPrefs.getString("getName", "");
+        }
     }
 
     //collect gym data from MapsActivity
@@ -196,20 +239,51 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     public void bookSession(){
 
-        String hour = hourSpinner.getSelectedItem().toString();
-        String day = daySpinner.getSelectedItem().toString();
-        String month = monthSpinner.getSelectedItem().toString();
-        String location = locationSpinner.getSelectedItem().toString();
+        hour = hourSpinner.getSelectedItem().toString();
+        day = daySpinner.getSelectedItem().toString();
+        month = monthSpinner.getSelectedItem().toString();
+        location = locationSpinner.getSelectedItem().toString();
+//
+//        long id = db.insertSession(hour, day, month, location);
+//        if (id < 0)
+//        {
+//            Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
+//        }
+//        else
+//        {
+//            Toast.makeText(this, "Your session on "+ day + " " + month +" is booked", Toast.LENGTH_SHORT).show();
+//        }
 
-        long id = db.insertSession(hour, day, month, location);
-        if (id < 0)
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, requestUrl,
+                new onResponseCustom(this, this) {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            stringRequestResponse.exportResponse(response.toLowerCase());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new onResponseErrorCustom(this) {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("logging in", error.toString());
+            }
+        })
         {
-            Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            Toast.makeText(this, "Your session on "+ day + " " + month +" is booked", Toast.LENGTH_SHORT).show();
-        }
+            @Override
+            protected Map<String, String> getParams () throws AuthFailureError
+            {
+                Map<String, String> prms = new HashMap<>();
+                prms.put("sentUsername", username);
+                prms.put("sentHour", hour);
+                prms.put("sentDay", day);
+                prms.put("sentMonth", month);
+                prms.put("sentLocation", location);
+                return prms;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     public void viewBooking(){
@@ -218,4 +292,23 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
 
+    @Override
+    public void exportResponse(String response) {
+        if (response.equals("success")){
+
+            Toast.makeText(this, "Your session on "+ day + " " + month +" is booked", Toast.LENGTH_LONG).show();
+            Log.d("sign up","success");
+        }
+        else if (response.equals("fail")){
+            Toast.makeText(this, "Fail to book session, try again later", Toast.LENGTH_LONG).show();
+            Log.d("sign up",response);
+        }
+        else if (response.equals("available")){
+            Toast.makeText(this, "Session has been booked before", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(this, "Other technical issuess", Toast.LENGTH_LONG).show();
+            Log.d("sign up",response);
+        }
+    }
 }
