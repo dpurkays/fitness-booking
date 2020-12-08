@@ -9,25 +9,43 @@
         <TextView
             android:id="@+id/textViewCalories"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:background="#66000000"
+            android:layout_marginBottom="10dp"
+            android:paddingVertical="10dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/jet_brains_monowght"
             android:text="Calories Burnt" />
 
         <TextView
             android:id="@+id/textViewSteps"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
+            android:textColor="#000000"
+            android:background="#66FFFFFF"
+            android:layout_marginBottom="10dp"
+            android:paddingVertical="10dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/jet_brains_monowght"
             android:text="Steps" />
 
         <TextView
             android:id="@+id/textViewDate"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:background="#66000000"
+            android:layout_marginBottom="10dp"
+            android:paddingVertical="10dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/jet_brains_monowght"
             android:text="Date" />
 
 </LinearLayout>

@@ -52,14 +52,14 @@
             android:background="@drawable/button_color"
             android:text="Sign In" />
 
-        <Button
-            android:id="@+id/addButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="10dp"
-            android:background="@drawable/button_color"
-            android:text="Register(Testing)" />
+<!--        <Button-->
+<!--            android:id="@+id/addButton"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:layout_marginVertical="10dp"-->
+<!--            android:background="@drawable/button_color"-->
+<!--            android:text="Register(Testing)" />-->
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

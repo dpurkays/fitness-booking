@@ -99,7 +99,6 @@ public class MapsActivity extends FragmentActivity implements
         showGymButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //TODO: change map view to another location and hardcode the gyms. put markers on gym
                 buttonClicked = true;
 
                 //change to Lougheed Mall's location

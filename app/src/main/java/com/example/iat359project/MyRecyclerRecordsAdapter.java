@@ -1,5 +1,6 @@
 package com.example.iat359project;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -38,20 +39,21 @@ public class MyRecyclerRecordsAdapter extends RecyclerView.Adapter<MyRecyclerRec
     public MyViewRecordHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_record_item,parent,false);
         MyViewRecordHolder viewHolder = new MyViewRecordHolder(v, db, context);
-        Log.d("noti","recyclerview written");
+        //Log.d("noti","recyclerview written");
 
         return viewHolder;
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(MyRecyclerRecordsAdapter.MyViewRecordHolder holder, int position) {
 
 
         String[]  results = (recordsList.get(position)).split(";");
         if(results != null) {
-            holder.caloriesView.setText(results[1]);
-            holder.stepsView.setText(results[2]);
+            holder.caloriesView.setText(results[1] + " kCal");
+            holder.stepsView.setText(results[2] + " Steps");
             holder.dateView.setText(results[3]);
         }
     }

@@ -67,13 +67,13 @@ public class SignInActivity extends AppCompatActivity implements StringRequestRe
             }
         });
 
-        addButton = (Button) findViewById((R.id.addButton));
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addAccount();
-            }
-        });
+//        addButton = (Button) findViewById((R.id.addButton));
+//        addButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addAccount();
+//            }
+//        });
 
         db = new MyDatabase(this);
         requestQueue = Volley.newRequestQueue(this);
@@ -92,7 +92,7 @@ public class SignInActivity extends AppCompatActivity implements StringRequestRe
         inputUsername.setTextSize(getSize);
         inputPassword.setTextSize(getSize);
         signInButton.setTextSize(getSize);
-        addButton.setTextSize(getSize);
+        //addButton.setTextSize(getSize);
 
         //Load TEXT FONT from SharedPreferences
         SharedPreferences textFont = getSharedPreferences("textFont", Context.MODE_PRIVATE);
@@ -102,25 +102,25 @@ public class SignInActivity extends AppCompatActivity implements StringRequestRe
             inputUsername.setTypeface(typeface);
             inputPassword.setTypeface(typeface);
             signInButton.setTypeface(typeface);
-            addButton.setTypeface(typeface);
+            //addButton.setTypeface(typeface);
         } else if(getFont == 2){
             Typeface typeface = getResources().getFont(R.font.jet_brains_monowght);
             inputUsername.setTypeface(typeface);
             inputPassword.setTypeface(typeface);
             signInButton.setTypeface(typeface);
-            addButton.setTypeface(typeface);
+            //addButton.setTypeface(typeface);
         }else if(getFont == 3) {
             Typeface typeface = getResources().getFont(R.font.nerko_one);
             inputUsername.setTypeface(typeface);
             inputPassword.setTypeface(typeface);
             signInButton.setTypeface(typeface);
-            addButton.setTypeface(typeface);
+            //addButton.setTypeface(typeface);
         } else if(getFont == 4){
             Typeface typeface = getResources().getFont(R.font.permanent_marker);
             inputUsername.setTypeface(typeface);
             inputPassword.setTypeface(typeface);
             signInButton.setTypeface(typeface);
-            addButton.setTypeface(typeface);
+           // addButton.setTypeface(typeface);
         }
 
         //Load THEME from SharedPreferences
@@ -128,11 +128,11 @@ public class SignInActivity extends AppCompatActivity implements StringRequestRe
         int getMode = theme.getInt("selectedTheme", defaultTheme);
         if(getMode == 1){
             signInButton.setBackgroundResource(R.drawable.button_color);
-            addButton.setBackgroundResource(R.drawable.button_color);
+            //addButton.setBackgroundResource(R.drawable.button_color);
             SignInLayout.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.background_dark));
         }else if(getMode == 2){
             signInButton.setBackgroundResource(R.drawable.button_color_light);
-            addButton.setBackgroundResource(R.drawable.button_color_light);
+            //addButton.setBackgroundResource(R.drawable.button_color_light);
             SignInLayout.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.background_light));
         }
     }

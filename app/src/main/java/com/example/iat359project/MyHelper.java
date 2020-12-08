@@ -31,16 +31,16 @@ public class MyHelper extends SQLiteOpenHelper {
             "CREATE TABLE "+
                     "records" + " (" +
                     "recordId" + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "user" + " TEXT, " +
                     "calories" + " TEXT, " +
                     "steps" + " TEXT, " +
                     "date" + " TEXT);" ;
 
-    private static final String DROP_TABLE = "DROP TABLE IF EXISTS" ;
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS";
 
     public MyHelper(Context context){
         super (context, Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
         this.context = context;
-
     }
 
     @Override

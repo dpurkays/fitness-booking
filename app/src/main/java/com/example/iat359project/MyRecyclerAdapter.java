@@ -136,7 +136,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         @Override
         public void onClick(View view) {
             activity.deleteRow(rowUser, rowHour, rowDay, rowMonth, rowLocation);
-
         }
 
         public void jumptoImplicit(){
@@ -153,7 +152,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             Uri geoLocation_3 = Uri.parse("https://www.google.com/maps/place/Steve+Nash+Sports+Club/@49.2505877,-122.8996621,15.29z/data=!3m1!5s0x5486783a30d22095:0x2d95b7e2289fd110!4m8!1m2!2m1!1sSteve+Nash+Sports+Club!3m4!1s0x0:0x55910b8232f1e12c!8m2!3d49.2513639!4d-122.8962851");
             Uri geoLocation_4 = Uri.parse("https://www.google.com/maps/place/F45+Training+Lougheed/@49.255206,-122.8946707,17z/data=!4m12!1m6!3m5!1s0x548679053f43b9d1:0x53a0d29026cc3f7e!2sF45+Training+Lougheed!8m2!3d49.2552025!4d-122.892482!3m4!1s0x548679053f43b9d1:0x53a0d29026cc3f7e!8m2!3d49.2552025!4d-122.892482");
             Uri geoLocation_5 = Uri.parse("https://www.google.com/maps/place/Fitness+2000+Athletic+Club/@49.2518078,-122.9035482,17z/data=!4m12!1m6!3m5!1s0x54867830097fe27d:0x69fac5a50e2852bb!2sFitness+2000+Athletic+Club!8m2!3d49.2518043!4d-122.9013595!3m4!1s0x54867830097fe27d:0x69fac5a50e2852bb!8m2!3d49.2518043!4d-122.9013595");
-            Uri geoLocation_6 = Uri.parse("https://www.google.com/maps/place/Cameron+Recreation+Complex/@49.2539422,-122.9014288,17z/data=!4m12!1m6!3m5!1s0x54867830b92ec437:0x6b1f108f0647f62!2sCameron+Recreation+Complex!8m2!3d49.2539387!4d-122.8992401!3m4!1s0x54867830b92ec437:0x6b1f108f0647f62!8m2!3d49.2539387!4d-122.8992401");
+            Uri geoLocation_6 = Uri.parse("https://www.google.com/maps/place/Cameron+Recreation+Complex/@49.2539422,-122.9014288,17z/data=!3m1!4b1!4m5!3m4!1s0x54867830b92ec437:0x6b1f108f0647f62!8m2!3d49.2539387!4d-122.8992401");
 
             PackageManager packageManager = context.getPackageManager();
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -164,16 +163,19 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
                     break;
                 case "Good Life":
                     intent.setData(geoLocation_2);
+                    break;
                 case "Steve Nash Sports Club":
                     intent.setData(geoLocation_3);
                     break;
                 case "F45 Training Lougheed":
                     intent.setData(geoLocation_4);
+                    break;
                 case "Fitness 2000 Athletic Club":
                     intent.setData(geoLocation_5);
                     break;
                 case "Cameron Recreation Complex":
                     intent.setData(geoLocation_6);
+                    break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + location);
             }

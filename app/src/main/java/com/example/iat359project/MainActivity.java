@@ -78,6 +78,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        SettingButton = (ImageButton) findViewById(R.id.SettingButton);
+        SettingButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                startSettingActivity();
+            }
+        });
+
         SharedPreferences sharedPrefs = getSharedPreferences("username", Context.MODE_PRIVATE);
         if (sharedPrefs != null){
             username = sharedPrefs.getString("getName", "");
@@ -210,6 +219,4 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this.getApplicationContext(),SettingActivity.class);
         startActivity(i);
     }
-
-
 }

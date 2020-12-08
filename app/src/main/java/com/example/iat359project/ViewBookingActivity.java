@@ -1,12 +1,9 @@
 package com.example.iat359project;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Typeface;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,14 +31,11 @@ import org.json.JSONException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ViewBookingActivity extends AppCompatActivity  implements AdapterView.OnItemClickListener{
+public class ViewBookingActivity extends AppCompatActivity  implements AdapterView.OnItemClickListener, StringRequestResponse{
     public static final float defaultSize = 20;
     public static final int defaultFont = 1;
     public static final int defaultTheme = 1;
 
-
-
-public class ViewBookingActivity extends AppCompatActivity  implements AdapterView.OnItemClickListener, StringRequestResponse{
     RecyclerView myRecycler;
     MyDatabase db;
     MyRecyclerAdapter myAdapter;
@@ -51,14 +44,20 @@ public class ViewBookingActivity extends AppCompatActivity  implements AdapterVi
     String requestUrl, username;
     JSONArray resultArray;
 
-
-    private TextView textViewBooking, textViewHour, textViewDate, textViewLocation;
+    private TextView textViewBooking, textViewCalories, textViewSteps, textViewDate;
+    private ConstraintLayout BookingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewbooking);
         myRecycler = (RecyclerView) findViewById(R.id.bookingList);
+
+        textViewBooking = (TextView) findViewById(R.id.textViewBooking);
+        textViewCalories = (TextView) findViewById(R.id.textViewCalories);
+        textViewSteps = (TextView) findViewById(R.id.textViewSteps);
+        textViewDate = (TextView) findViewById(R.id.textViewDate);
+        BookingLayout = (ConstraintLayout) findViewById(R.id.BookingLayout);
 
         db = new MyDatabase(this);
         helper = new MyHelper(this);
@@ -132,9 +131,44 @@ public class ViewBookingActivity extends AppCompatActivity  implements AdapterVi
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        //Load TEXT SIZE from SharedPreferences
+        SharedPreferences textSize = getSharedPreferences("textSize", Context.MODE_PRIVATE);
+        float getSize = textSize.getFloat("selectedTextSize", defaultSize);
+        textViewBooking.setTextSize(getSize);
+
+        //Load TEXT FONT from SharedPreferences
+        SharedPreferences textFont = getSharedPreferences("textFont", Context.MODE_PRIVATE);
+        int getFont = textFont.getInt("selectedTextFont", defaultFont);
+        if(getFont == 1){
+            Typeface typeface = getResources().getFont(R.font.roboto_light);
+            textViewBooking.setTypeface(typeface);
+        } else if(getFont == 2){
+            Typeface typeface = getResources().getFont(R.font.jet_brains_monowght);
+            textViewBooking.setTypeface(typeface);
+        }else if(getFont == 3) {
+            Typeface typeface = getResources().getFont(R.font.nerko_one);
+            textViewBooking.setTypeface(typeface);
+        } else if(getFont == 4){
+            Typeface typeface = getResources().getFont(R.font.permanent_marker);
+            textViewBooking.setTypeface(typeface);
+        }
+
+        //Load THEME from SharedPreferences
+        SharedPreferences theme = getSharedPreferences("theme", Context.MODE_PRIVATE);
+        int getMode = theme.getInt("selectedTheme", defaultTheme);
+        if(getMode == 1){
+            BookingLayout.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.background_dark));
+        }else if(getMode == 2){
+            BookingLayout.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.background_light));
+        }
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         LinearLayout clickedRow = (LinearLayout) view;
-
     }
 
     @Override
@@ -160,14 +194,6 @@ public class ViewBookingActivity extends AppCompatActivity  implements AdapterVi
 //        String hour = resultArray.getString(2);
 //        String day = resultArray.getString(3);
 //        Log.d("returnSession", "hour: "+ hour +" day: "+ day);
-        myAdapter = new MyRecyclerAdapter(mArrayList, db, this);
-        myRecycler.setAdapter(myAdapter);
-        myRecycler.setLayoutManager(new LinearLayoutManager(this));
-
-        textViewBooking = (TextView) findViewById(R.id.textViewBooking);
-        textViewHour = (TextView) findViewById(R.id.textViewHour);
-        textViewDate = (TextView) findViewById(R.id.textViewDate);
-        textViewLocation = (TextView) findViewById(R.id.textViewLocation);
     }
 
     public String deleteRow(String user, final String hour, final String day, final String month, final String location){
@@ -209,47 +235,5 @@ public class ViewBookingActivity extends AppCompatActivity  implements AdapterVi
 
         return result;
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        //Load TEXT SIZE from SharedPreferences
-        SharedPreferences textSize = getSharedPreferences("textSize", Context.MODE_PRIVATE);
-        float getSize = textSize.getFloat("selectedTextSize", defaultSize);
-        textViewBooking.setTextSize(getSize);
-        textViewHour.setTextSize(getSize);
-        textViewDate.setTextSize(getSize);
-        textViewLocation.setTextSize(getSize);
-
-        //Load TEXT FONT from SharedPreferences
-        SharedPreferences textFont = getSharedPreferences("textFont", Context.MODE_PRIVATE);
-        int getFont = textFont.getInt("selectedTextFont", defaultFont);
-        if(getFont == 1){
-            Typeface typeface = getResources().getFont(R.font.roboto_light);
-            textViewBooking.setTypeface(typeface);
-            textViewHour.setTypeface(typeface);
-            textViewDate.setTypeface(typeface);
-            textViewLocation.setTypeface(typeface);
-        } else if(getFont == 2){
-            Typeface typeface = getResources().getFont(R.font.jet_brains_monowght);
-            textViewBooking.setTypeface(typeface);
-            textViewHour.setTypeface(typeface);
-            textViewDate.setTypeface(typeface);
-            textViewLocation.setTypeface(typeface);
-        }else if(getFont == 3) {
-            Typeface typeface = getResources().getFont(R.font.nerko_one);
-            textViewBooking.setTypeface(typeface);
-            textViewHour.setTypeface(typeface);
-            textViewDate.setTypeface(typeface);
-            textViewLocation.setTypeface(typeface);
-        } else if(getFont == 4){
-            Typeface typeface = getResources().getFont(R.font.permanent_marker);
-            textViewBooking.setTypeface(typeface);
-            textViewHour.setTypeface(typeface);
-            textViewDate.setTypeface(typeface);
-            textViewLocation.setTypeface(typeface);
-        }
-    }
-
 }
+

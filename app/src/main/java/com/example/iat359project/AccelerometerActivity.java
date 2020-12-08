@@ -23,12 +23,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+// REFERENCE
+// (Basic pedometer algorithm reference: https://programmerworld.co/android/how-to-create-walking-step-counter-app-using-accelerometer-sensor-and-shared-preference-in-android/)
+
 public class AccelerometerActivity extends AppCompatActivity {
 
     public static final float defaultSize = 20;
     public static final int defaultFont = 1;
     public static final int defaultTheme = 1;
-    private TextView stepCountDisplay, recordingDisplay,caloriesDisplay, caloriesTextview, countTextview, bestDisplay;
+
+    private TextView stepCountDisplay, recordingDisplay,caloriesDisplay, caloriesTextview, countTextview, bestDisplay, textViewBest;
     private Button toggleButton, viewRecordsButton, clearRecordsButton;
     private boolean isOn = false;
     private double magnitudeLatest = 0;
@@ -64,8 +68,8 @@ public class AccelerometerActivity extends AppCompatActivity {
         recordingDisplay = (TextView) findViewById(R.id.recordingDisplay);
         caloriesTextview= (TextView) findViewById(R.id.textViewCalories);
         countTextview= (TextView) findViewById(R.id.textViewCount);
+        textViewBest = (TextView) findViewById(R.id.textViewBest);
         toggleButton = (Button) findViewById(R.id.accelerometerToggleButton);
-
         AccLayout = (ConstraintLayout) findViewById(R.id.AccLayout);
         viewRecordsButton = (Button) findViewById(R.id.viewRecordButton);
         clearRecordsButton = (Button) findViewById(R.id.clearRecordsButton);
@@ -76,6 +80,7 @@ public class AccelerometerActivity extends AppCompatActivity {
                 toggleSensor(isOn);
             }
         });
+
 
         viewRecordsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +100,13 @@ public class AccelerometerActivity extends AppCompatActivity {
 
             bestDisplay.setText(lastSteps + " steps/ " + lastCalories + "kCal");
         }
+
+        clearRecordsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.deleteRecords();
+            }
+        });
 
         mySensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -147,6 +159,11 @@ public class AccelerometerActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if(isOn) {
+            mySensorManager.registerListener(accSensorListener, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
+        //Load TEXT SIZE from SharedPreferences
         SharedPreferences sharedPrefs = getSharedPreferences("textSize", Context.MODE_PRIVATE);
         float getSize = sharedPrefs.getFloat("selectedTextSize", defaultSize);
         stepCountDisplay.setTextSize(getSize);
@@ -154,6 +171,10 @@ public class AccelerometerActivity extends AppCompatActivity {
         recordingDisplay.setTextSize(getSize);
         caloriesTextview.setTextSize(getSize);
         countTextview.setTextSize(getSize);
+        viewRecordsButton.setTextSize(getSize);
+        clearRecordsButton.setTextSize(getSize);
+        bestDisplay.setTextSize(getSize);
+        textViewBest.setTextSize(getSize);
         toggleButton.setTextSize(getSize);
 
         //Load TEXT FONT from SharedPreferences
@@ -167,6 +188,11 @@ public class AccelerometerActivity extends AppCompatActivity {
             caloriesTextview.setTypeface(typeface);
             countTextview.setTypeface(typeface);
             toggleButton.setTypeface(typeface);
+            viewRecordsButton.setTypeface(typeface);
+            clearRecordsButton.setTypeface(typeface);
+            bestDisplay.setTypeface(typeface);
+            textViewBest.setTypeface(typeface);
+
         } else if(getFont == 2){
             Typeface typeface = getResources().getFont(R.font.jet_brains_monowght);
             stepCountDisplay.setTypeface(typeface);
@@ -175,6 +201,10 @@ public class AccelerometerActivity extends AppCompatActivity {
             caloriesTextview.setTypeface(typeface);
             countTextview.setTypeface(typeface);
             toggleButton.setTypeface(typeface);
+            viewRecordsButton.setTypeface(typeface);
+            clearRecordsButton.setTypeface(typeface);
+            bestDisplay.setTypeface(typeface);
+            textViewBest.setTypeface(typeface);
         }else if(getFont == 3) {
             Typeface typeface = getResources().getFont(R.font.nerko_one);
             stepCountDisplay.setTypeface(typeface);
@@ -183,6 +213,10 @@ public class AccelerometerActivity extends AppCompatActivity {
             caloriesTextview.setTypeface(typeface);
             countTextview.setTypeface(typeface);
             toggleButton.setTypeface(typeface);
+            viewRecordsButton.setTypeface(typeface);
+            clearRecordsButton.setTypeface(typeface);
+            bestDisplay.setTypeface(typeface);
+            textViewBest.setTypeface(typeface);
         } else if(getFont == 4){
             Typeface typeface = getResources().getFont(R.font.permanent_marker);
             stepCountDisplay.setTypeface(typeface);
@@ -191,6 +225,10 @@ public class AccelerometerActivity extends AppCompatActivity {
             caloriesTextview.setTypeface(typeface);
             countTextview.setTypeface(typeface);
             toggleButton.setTypeface(typeface);
+            viewRecordsButton.setTypeface(typeface);
+            clearRecordsButton.setTypeface(typeface);
+            bestDisplay.setTypeface(typeface);
+            textViewBest.setTypeface(typeface);
         }
 
         //Load THEME from SharedPreferences
@@ -254,13 +292,11 @@ public class AccelerometerActivity extends AppCompatActivity {
         }
     }
 
-    public void onResumed(){
-        if(isOn) {
-            mySensorManager.registerListener(accSensorListener, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }
-    }
 
-    public void onPaused(){
+    @Override
+    protected void onPause() {
+        super.onPause();
+
         if(!isOn){
             mySensorManager.unregisterListener(accSensorListener);
         }

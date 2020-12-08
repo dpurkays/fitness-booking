@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RecordsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/running"
+    android:backgroundTint="@color/background_dark"
+    android:backgroundTintMode="src_over">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="100px">
+        android:padding="10dp">
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textViewRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:paddingVertical="20dp"
+            android:textColor="#FFFFFF"
+            android:background="#66000000"
+            android:gravity="center"
             android:text="Your records" />
 
         <LinearLayout
@@ -22,26 +32,48 @@
 
             <TextView
                 android:id="@+id/textViewCalories"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="#FFFFFF"
+                android:layout_weight="0"
+                android:textAlignment="center"
+                android:background="#66000000"
+                android:paddingVertical="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingHorizontal="7dp"
+                android:textSize="15sp"
+                android:fontFamily="@font/jet_brains_monowght"
                 android:text="Calories Burnt" />
 
             <TextView
                 android:id="@+id/textViewSteps"
-                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="center"
+                android:textColor="#000000"
+                android:background="#66FFFFFF"
+                android:paddingVertical="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"
+                android:fontFamily="@font/jet_brains_monowght"
                 android:text="Steps" />
 
             <TextView
                 android:id="@+id/textViewDate"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="2"
-                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center"
+                android:background="#66000000"
+                android:paddingVertical="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"
+                android:fontFamily="@font/jet_brains_monowght"
                 android:text="Date" />
 
         </LinearLayout>
@@ -49,7 +81,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recordsList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
 
     </LinearLayout>
 
