@@ -1,6 +1,7 @@
 package com.example.iat359project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
@@ -27,9 +28,6 @@ public class AccelerometerActivity extends AppCompatActivity {
     public static final float defaultSize = 20;
     public static final int defaultFont = 1;
     public static final int defaultTheme = 1;
-
-    private TextView stepCountDisplay, recordingDisplay,caloriesDisplay, caloriesTextview, countTextview;
-    private Button toggleButton;
     private TextView stepCountDisplay, recordingDisplay,caloriesDisplay, caloriesTextview, countTextview, bestDisplay;
     private Button toggleButton, viewRecordsButton, clearRecordsButton;
     private boolean isOn = false;
@@ -149,7 +147,6 @@ public class AccelerometerActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        //Load TEXT SIZE from SharedPreferences
         SharedPreferences sharedPrefs = getSharedPreferences("textSize", Context.MODE_PRIVATE);
         float getSize = sharedPrefs.getFloat("selectedTextSize", defaultSize);
         stepCountDisplay.setTextSize(getSize);

@@ -3,6 +3,7 @@ package com.example.iat359project;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 import com.google.android.gms.maps.model.LatLng;
@@ -47,11 +49,9 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     MyDatabase db;
     RequestQueue requestQueue;
     String requestUrl, username, hour, day, month, location;
-
     private ConstraintLayout SignUpLayout;
 
-    private String gymName;
-    private String gymName = "Fitness World";
+    private String gymName = "";
     private double gymLat;
     private double gymLng;
 
@@ -112,29 +112,28 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         hourSpinner.setOnItemSelectedListener(this);
 
         locationSpinner = (Spinner) findViewById(R.id.locationSpinner);
-        ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.locationArray, R.layout.support_simple_spinner_dropdown_item);
-        locationAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        locationSpinner.setAdapter(locationAdapter);
-
-        locationSpinner.setSelection(0);
+        ArrayAdapter<CharSequence> locationAdapter;
+        Log.d("gymName", gymName);
         switch(gymName){
             case "Fitness World":
-                locationSpinner.setSelection(0);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.fitnessworld, R.layout.support_simple_spinner_dropdown_item);
             case "Good Life":
-                locationSpinner.setSelection(1);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.goodlife, R.layout.support_simple_spinner_dropdown_item);
             case "Steve Nash Sports Club":
-                locationSpinner.setSelection(2);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.stevenash, R.layout.support_simple_spinner_dropdown_item);
             case "F45 Training Lougheed":
-                locationSpinner.setSelection(3);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.f45, R.layout.support_simple_spinner_dropdown_item);
             case "Fitness 2000 Athletic Club":
-                locationSpinner.setSelection(4);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.fitness200, R.layout.support_simple_spinner_dropdown_item);
             case "Cameron Recreation Complex":
-                locationSpinner.setSelection(5);
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.cameron, R.layout.support_simple_spinner_dropdown_item);
+            default:
+                locationAdapter = ArrayAdapter.createFromResource(this, R.array.locationArray, R.layout.support_simple_spinner_dropdown_item);
         }
-
+//        ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.locationArray, R.layout.support_simple_spinner_dropdown_item);
+        locationAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(locationAdapter);
         locationSpinner.setOnItemSelectedListener(this);
-
-
 
         sessionTextview = (TextView)findViewById(R.id.textViewSession);
         usernameTextview = (TextView)findViewById(R.id.textViewUsername);
@@ -160,6 +159,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         gymLat = getIntent().getDoubleExtra("LAT", 0);
         gymLng = getIntent().getDoubleExtra("LNG", 0);
     }
+
+
 
     @Override
     protected void onResume() {

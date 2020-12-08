@@ -19,7 +19,6 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         mContext = context;
         mWindow = LayoutInflater.from(context).inflate(R.layout.custom_info_window, null);
     }
-
     private void renderWindowText(Marker marker, View view) {
         Button buttonBooking;
         String title = marker.getTitle();

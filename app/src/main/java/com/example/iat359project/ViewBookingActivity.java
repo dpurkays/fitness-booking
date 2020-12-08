@@ -62,7 +62,6 @@ public class ViewBookingActivity extends AppCompatActivity  implements AdapterVi
 
         db = new MyDatabase(this);
         helper = new MyHelper(this);
-
 //        Cursor cursor = (Cursor) db.getSession();
 //        Bundle extras = getIntent().getExtras();
 //        if(extras == null) {

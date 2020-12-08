@@ -19,7 +19,6 @@ public class MyDatabase {
         context = c;
         helper = new MyHelper(context);
     }
-
     public long insertSession (String hour, String day, String month, String location)
     {
         db = helper.getWritableDatabase();

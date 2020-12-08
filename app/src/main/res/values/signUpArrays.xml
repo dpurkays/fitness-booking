@@ -75,4 +75,23 @@
         <item>Cameron Recreation Complex</item>
     </string-array>
 
+    <string-array name="fitnessworld">
+        <item>Fitness World</item>
+    </string-array>
+    <string-array name="goodlife">
+        <item>Good Life</item>
+    </string-array>
+    <string-array name="stevenash">
+        <item>Steve Nash Sports Club</item>
+    </string-array>
+    <string-array name="f45">
+        <item>F45 Training Lougheed</item>
+    </string-array>
+    <string-array name="fitness200">
+        <item>Fitness 2000 Athletic Club</item>
+    </string-array>
+    <string-array name="cameron">
+        <item>Cameron Recreation Complex</item>
+    </string-array>
+
 </resources>

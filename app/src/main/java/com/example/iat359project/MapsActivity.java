@@ -54,7 +54,6 @@ public class MapsActivity extends FragmentActivity implements
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
-
     // constants
     private static final String TAG = "TAG";
     private static final int DEFAULT_ZOOM = 15;
